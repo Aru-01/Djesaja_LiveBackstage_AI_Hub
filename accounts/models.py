@@ -1,3 +1,32 @@
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+)
 from django.db import models
+from accounts.managers import CustomUserManager
 
-# Create your models here.
+
+class User(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = [
+        ("SUPER_ADMIN", "Super Admin"),
+        ("MANAGER", "Manager"),
+        ("CREATOR", "Creator"),
+    ]
+
+    username = models.CharField(max_length=250, unique=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.username
