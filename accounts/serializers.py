@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "email",
+            "profile_image",
             "role",
             "is_active",
         ]

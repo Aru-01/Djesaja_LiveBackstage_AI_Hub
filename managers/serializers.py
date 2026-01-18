@@ -12,7 +12,6 @@ class ManagerSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "name",
-            "month",
             "eligible_creators",
             "estimated_bonus_contribution",
             "diamonds",

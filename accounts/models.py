@@ -3,7 +3,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
-from accounts.managers import CustomUserManager
+from accounts.custom_managers import CustomUserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -15,6 +15,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(max_length=250, unique=True)
     email = models.EmailField(unique=True, null=True, blank=True)
+    profile_image = models.ImageField(upload_to="profiles/", null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

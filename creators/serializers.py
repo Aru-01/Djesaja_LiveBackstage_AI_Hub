@@ -15,7 +15,6 @@ class CreatorSerializer(serializers.ModelSerializer):
             "manager",
             "manager_name",
             "name",
-            "month",
             "estimated_bonus_contribution",
             "achieved_milestones",
             "diamonds",
