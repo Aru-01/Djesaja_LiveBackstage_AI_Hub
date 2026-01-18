@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{subject}}</title>
+  </head>
+
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background: #eef2f7;
+      font-family: &quot;Segoe UI&quot;, Arial, sans-serif;
+    "
+  >
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <table
+            width="420"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              background: #ffffff;
+              margin: 40px 0;
+              border-radius: 14px;
+              overflow: hidden;
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            "
+          >
+            <!-- Header -->
+            <tr>
+              <td
+                style="
+                  background: linear-gradient(135deg, #4f46e5, #6366f1);
+                  padding: 26px;
+                  text-align: center;
+                "
+              >
+                <h2 style="color: #ffffff; margin: 0; font-weight: 600">
+                  {{subject}}
+                </h2>
+                <p style="color: #e0e7ff; font-size: 13px; margin-top: 6px">
+                  Secure • Fast • Simple
+                </p>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding: 32px; text-align: center">
+                <p style="font-size: 15px; color: #374151; line-height: 1.6">
+                  Hello 👋 <br />
+                  Use the OTP below to complete your verification.
+                </p>
+
+                <!-- OTP Box -->
+                <div
+                  style="
+                    margin: 28px auto;
+                    display: inline-block;
+                    padding: 16px 34px;
+                    background: #f8fafc;
+                    border: 1px dashed #c7d2fe;
+                    border-radius: 12px;
+                    transition: 0.3s;
+                  "
+                >
+                  <span
+                    style="
+                      font-size: 28px;
+                      font-weight: 700;
+                      letter-spacing: 6px;
+                      color: #1e1b4b;
+                    "
+                  >
+                    {{ OTP }}
+                  </span>
+                </div>
+
+                <p style="font-size: 13px; color: #6b7280">
+                  ⏳ This code expires in <b>5 minutes</b>
+                </p>
+
+                <hr
+                  style="
+                    border: none;
+                    border-top: 1px solid #e5e7eb;
+                    margin: 26px 0;
+                  "
+                />
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td
+                style="
+                  background: #f9fafb;
+                  padding: 14px;
+                  text-align: center;
+                  font-size: 11px;
+                  color: #9ca3af;
+                "
+              >
+                © 2025 Top Talent Agency · All rights reserved
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
