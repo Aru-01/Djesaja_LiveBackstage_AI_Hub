@@ -13,7 +13,6 @@ class Manager(models.Model):
         on_delete=models.CASCADE,
         related_name="month_managers",
     )
-    name = models.CharField(max_length=255, null=True, blank=True)
     eligible_creators = models.IntegerField(default=0)
     estimated_bonus_contribution = models.CharField(max_length=250, blank=True)
     diamonds = models.CharField(max_length=250, blank=True)

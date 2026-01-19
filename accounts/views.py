@@ -136,3 +136,5 @@ class ResendOtpView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "OTP sent to email"}, status=status.HTTP_200_OK)
+
+

@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "username",
+            "name",
             "email",
             "profile_image",
             "role",
@@ -27,7 +28,13 @@ class UserSerializer(serializers.ModelSerializer):
 class SelfProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["profile_image"]
+        fields = ["name", "username", "profile_image"]
+
+    def validate_username(self, value):
+        user = self.context["request"].user
+        if User.objects.exclude(id=user.id).filter(username=value).exists():
+            raise serializers.ValidationError("Username already taken")
+        return value
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -112,20 +119,30 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 class ResendOtpSerializer(serializers.Serializer):
     email = serializers.EmailField()
+    purpose = serializers.ChoiceField(choices=["forgot_password", "verify_email"])
 
-    def validate_email(self, value):
-        if not User.objects.filter(email=value).exists():
+    def validate(self, data):
+        if not User.objects.filter(email=data["email"]).exists():
             raise serializers.ValidationError("User not found")
-        return value
+        return data
 
     def save(self):
-        user = User.objects.get(email=self.validated_data["email"])
-        cooldown_key = f"forgot_resend_{user.id}"
+        email = self.validated_data["email"]
+        purpose = self.validated_data["purpose"]
+        user = User.objects.get(email=email)
+
+        cooldown_key = f"{purpose}_resend_{user.id}"
         if cache.get(cooldown_key):
             raise serializers.ValidationError(
                 "OTP recently sent. Wait 30s before resending."
             )
+
         otp = generate_otp()
-        set_otp_cache(f"forgot_{user.id}", otp)
-        send_otp_email(user.email, otp)
+
+        if purpose == "forgot_password":
+            set_otp_cache(f"forgot_{user.id}", otp)
+        else:
+            set_otp_cache(user.id, otp)
+
+        send_otp_email(email, otp, purpose)
         cache.set(cooldown_key, True, timeout=30)

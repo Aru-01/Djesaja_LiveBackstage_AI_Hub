@@ -5,7 +5,7 @@ from accounts.serializers import UserSerializer
 
 class CreatorSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    manager_name = serializers.CharField(source="manager.name", read_only=True)
+    manager_name = serializers.CharField(source="manager.user.name", read_only=True)
 
     class Meta:
         model = Creator
@@ -14,7 +14,6 @@ class CreatorSerializer(serializers.ModelSerializer):
             "user",
             "manager",
             "manager_name",
-            "name",
             "estimated_bonus_contribution",
             "achieved_milestones",
             "diamonds",

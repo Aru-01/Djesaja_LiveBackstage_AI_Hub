@@ -16,7 +16,6 @@ class Creator(models.Model):
         on_delete=models.CASCADE,
         related_name="month_creators",
     )
-    name = models.CharField(max_length=255, null=True, blank=True)
     estimated_bonus_contribution = models.CharField(max_length=100, blank=True)
     achieved_milestones = models.CharField(max_length=100, blank=True)
     diamonds = models.CharField(max_length=100, blank=True)

@@ -11,7 +11,6 @@ class ManagerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "user",
-            "name",
             "eligible_creators",
             "estimated_bonus_contribution",
             "diamonds",
