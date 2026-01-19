@@ -34,6 +34,10 @@ class SelfProfileUpdateView(generics.UpdateAPIView):
     serializer_class = SelfProfileUpdateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True  
+        return super().update(request, *args, **kwargs)
+
     def get_object(self):
         return self.request.user
 
@@ -136,5 +140,3 @@ class ResendOtpView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "OTP sent to email"}, status=status.HTTP_200_OK)
-
-
