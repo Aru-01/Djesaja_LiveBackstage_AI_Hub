@@ -14,8 +14,8 @@ class Manager(models.Model):
         related_name="month_managers",
     )
     eligible_creators = models.IntegerField(default=0)
-    estimated_bonus_contribution = models.CharField(max_length=250, blank=True)
-    diamonds = models.CharField(max_length=250, blank=True)
+    estimated_bonus_contribution = models.FloatField(default=0.0)
+    diamonds = models.IntegerField(default=0)
     M_0_5 = models.IntegerField(default=0)
     M1 = models.IntegerField(default=0)
     M2 = models.IntegerField(default=0)
@@ -27,8 +27,8 @@ class Manager(models.Model):
     class Meta:
         unique_together = (
             "user",
-            # "month",
-        )  # same manager duplicate jeno na hoy
+            "report_month",
+        )  # same manager, same month duplicate jeno na hoy
 
     def __str__(self):
-        return f"{self.name} - {self.report_month.code}"
+        return f"{self.user.username} - {self.report_month.code}"

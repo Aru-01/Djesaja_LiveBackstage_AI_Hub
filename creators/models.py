@@ -16,11 +16,11 @@ class Creator(models.Model):
         on_delete=models.CASCADE,
         related_name="month_creators",
     )
-    estimated_bonus_contribution = models.CharField(max_length=100, blank=True)
-    achieved_milestones = models.CharField(max_length=100, blank=True)
-    diamonds = models.CharField(max_length=100, blank=True)
+    estimated_bonus_contribution = models.FloatField(default=0.0)
+    achieved_milestones = models.JSONField(default=list)
+    diamonds = models.IntegerField(default=0)
     valid_go_live_days = models.IntegerField(default=0)
-    live_duration = models.FloatField(default=0.0)  # hours
+    live_duration = models.FloatField(default=0.0)  
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -28,8 +28,8 @@ class Creator(models.Model):
     class Meta:
         unique_together = (
             "user",
-            "manager",
-        )  # duplicate check for same manager
+            "report_month",
+        )  # duplicate check for same creator , same month er jonno
 
     def __str__(self):
-        return f"{self.name} ({self.manager.name} - {self.report_month.code})"
+        return f"{self.user.username} ({self.manager.user.username} - {self.report_month.code})"

@@ -1,4 +1,3 @@
-
 ##########################################################
 
 import sys
@@ -19,6 +18,7 @@ from managers.models import Manager
 from creators.models import Creator
 from api.models import ReportingMonth
 from django.utils import timezone
+import re
 
 current_month = timezone.now().strftime("%Y%m")
 
@@ -31,6 +31,30 @@ def get_reporting_month_from_code(code: str):
     """
     report_month, _ = ReportingMonth.objects.get_or_create(code=str(code))
     return report_month
+
+
+def parse_money(value: str) -> float:
+    if not value:
+        return 0.0
+    m = re.search(r"([\d,]+\.?\d*)", value)
+    return float(m.group(1).replace(",", "")) if m else 0.0
+
+
+def parse_diamonds(value: str) -> int:
+    if not value:
+        return 0
+
+    match = re.search(r"([\d,]+)", value)
+    if not match:
+        return 0
+
+    return int(match.group(1).replace(",", ""))
+
+
+def parse_milestones(value: str) -> list:
+    if not value or "No" in value:
+        return []
+    return [v.strip() for v in value.split("\n") if v.strip()]
 
 
 # ----------------- Main function -----------------
@@ -50,6 +74,10 @@ def save_scrape_data(data, month_code=None):
             username=manager_username,
             defaults={"role": "MANAGER"},
         )
+        # Manager user
+        if user_m.name != manager_username:
+            user_m.name = manager_username
+            user_m.save(update_fields=["name"])
 
         # ✅ Change 1: set_password for login
         if created:
@@ -59,12 +87,13 @@ def save_scrape_data(data, month_code=None):
         # ---------------- Manager Table ----------------
         manager, _ = Manager.objects.update_or_create(
             user=user_m,
-            report_month=report_month,  
+            report_month=report_month,
             defaults={
-                "name": manager_username,
                 "eligible_creators": int(m["Eligible creators"]),
-                "estimated_bonus_contribution": m["Estimated bonus contribution"],
-                "diamonds": m["Diamonds"],
+                "estimated_bonus_contribution": parse_money(
+                    m["Estimated bonus contribution"]
+                ),
+                "diamonds": parse_diamonds(m["Diamonds"]),
                 "M_0_5": int(m.get("M0.5", 0)),
                 "M1": int(m.get("M1", 0)),
                 "M2": int(m.get("M2", 0)),
@@ -82,6 +111,10 @@ def save_scrape_data(data, month_code=None):
                 username=creator_name,
                 defaults={"role": "CREATOR"},
             )
+            # Creator user
+            if user_c.name != creator_name:
+                user_c.name = creator_name
+                user_c.save(update_fields=["name"])
 
             # ✅ Change 1: set_password for login
             if created:
@@ -104,11 +137,12 @@ def save_scrape_data(data, month_code=None):
                 user=user_c,
                 report_month=report_month,
                 defaults={
-                    "manager": manager,  # ✅ Always update manager
-                    "name": creator_name,
-                    "estimated_bonus_contribution": c["Estimated bonus contribution"],
-                    "achieved_milestones": c["Achieved milestones"],
-                    "diamonds": c["Diamonds"],
+                    "manager": manager,
+                    "estimated_bonus_contribution": parse_money(
+                        c["Estimated bonus contribution"]
+                    ),
+                    "achieved_milestones": parse_milestones(c["Achieved milestones"]),
+                    "diamonds": parse_diamonds(c["Diamonds"]),
                     "valid_go_live_days": valid_go_live_days,
                     "live_duration": live_duration,
                 },
