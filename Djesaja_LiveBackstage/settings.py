@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "creators",
     "managers",
     "api",
+    "ai_insights",
 ]
 
 MIDDLEWARE = [

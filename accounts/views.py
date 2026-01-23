@@ -1,6 +1,5 @@
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
-from accounts.models import User
 from accounts.serializers import (
     UserSerializer,
     SelfProfileUpdateSerializer,
@@ -9,9 +8,11 @@ from accounts.serializers import (
     ResetPasswordSerializer,
     ResendOtpSerializer,
     VerifyOtpSerializer,
+    MyTokenObtainPairSerializer,
 )
 from rest_framework.response import Response
 from rest_framework import status, permissions
+from rest_framework_simplejwt.views import TokenObtainPairView
 from accounts.utils import (
     send_otp_email,
     generate_otp,
@@ -22,6 +23,12 @@ from accounts.utils import (
 
 
 # Create your views here.
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
 class SelfProfileView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -35,7 +42,7 @@ class SelfProfileUpdateView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def update(self, request, *args, **kwargs):
-        kwargs["partial"] = True  
+        kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
 
     def get_object(self):

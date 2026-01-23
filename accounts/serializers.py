@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from accounts.models import User
 from accounts.utils import (
     generate_otp,
@@ -20,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "profile_image",
             "role",
-            "is_active",
+            "email_verified",
         ]
         read_only_fields = ["id"]
 
@@ -35,6 +36,33 @@ class SelfProfileUpdateSerializer(serializers.ModelSerializer):
         if User.objects.exclude(id=user.id).filter(username=value).exists():
             raise serializers.ValidationError("Username already taken")
         return value
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token["username"] = user.username
+        token["email"] = user.email
+        token["role"] = getattr(user, "role", None)
+        token["email_verified"] = getattr(user, "email_verified", False)
+
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data["user"] = {
+            "id": self.user.id,
+            "username": self.user.username,
+            "email": self.user.email,
+            "role": getattr(self.user, "role", None),
+            "email_verified": getattr(self.user, "email_verified", False),
+        }
+
+        return data
 
 
 class ChangePasswordSerializer(serializers.Serializer):
