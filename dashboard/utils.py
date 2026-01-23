@@ -9,9 +9,17 @@ from api.models import ReportingMonth
 
 
 def get_report_month(month_code=None):
-    if month_code:
-        return ReportingMonth.objects.get(code=month_code)
-    return ReportingMonth.objects.latest("id")
+    """
+    Priority:
+    1. If month_code provided → use it
+    2. Else → use current month YYYYMM
+    """
+
+    if not month_code:
+        now = timezone.now()
+        month_code = f"{now.year}{now.month:02d}"
+
+    return ReportingMonth.objects.get(code=month_code)
 
 
 User = get_user_model()
@@ -19,86 +27,89 @@ User = get_user_model()
 
 def get_managers_data(report_month, manager_id=None):
     """
-    Optimized: avoids N+1 queries using annotate and prefetch_related
+    Returns list of managers with correct rank based on total diamonds of their creators.
+    Aggregates total_hour, total_coin, total_diamond, my_creators.
     """
 
-    qs = Manager.objects.filter(report_month=report_month).select_related("user")
+    qs = (
+        Manager.objects.filter(report_month=report_month)
+        .select_related("user")
+        .annotate(
+            my_creators=Count(
+                "creators", filter=Q(creators__report_month=report_month), distinct=True
+            ),
+            total_coin=Sum(
+                "creators__estimated_bonus_contribution",
+                filter=Q(creators__report_month=report_month),
+            ),
+            total_hour=Sum(
+                "creators__live_duration",
+                filter=Q(creators__report_month=report_month),
+            ),
+            total_diamond=Sum(
+                "creators__diamonds",
+                filter=Q(creators__report_month=report_month),
+            ),
+        )
+        .annotate(
+            rank=Window(expression=RowNumber(), order_by=F("total_diamond").desc())
+        )
+        .order_by("-total_diamond")
+    )
+
+    manager_list = [
+        {
+            "id": m.id,
+            "username": m.user.username,
+            "my_creators": m.my_creators or 0,
+            "rank": m.rank,
+            "total_coin": m.total_coin or 0,
+            "total_hour": m.total_hour or 0,
+            "total_diamond": m.total_diamond or 0,
+        }
+        for m in qs
+    ]
+
     if manager_id:
-        qs = qs.filter(id=manager_id)
-
-    # Annotate rank
-    qs = qs.annotate(
-        manager_position=Window(
-            expression=RowNumber(), order_by=F("eligible_creators").desc()
-        )
-    )
-
-    # Annotate creator aggregates
-    qs = qs.annotate(
-        my_creators=Count(
-            "creators", filter=Q(creators__report_month=report_month), distinct=True
-        ),
-        total_coin=Sum(
-            "creators__estimated_bonus_contribution",
-            filter=Q(creators__report_month=report_month),
-        ),
-        total_hour=Sum(
-            "creators__live_duration", filter=Q(creators__report_month=report_month)
-        ),
-        total_diamond=Sum(
-            "creators__diamonds", filter=Q(creators__report_month=report_month)
-        ),
-    )
-
-    manager_list = []
-    for m in qs:
-        manager_list.append(
-            {
-                "id": m.id,
-                "username": m.user.username,
-                "my_creators": m.my_creators or 0,
-                "manager_position": m.manager_position,
-                "total_coin": m.total_coin or 0,
-                "total_hour": m.total_hour or 0,
-                "total_diamond": m.total_diamond or 0,
-            }
-        )
+        manager_list = [m for m in manager_list if m["id"] == int(manager_id)]
 
     return manager_list
 
 
-def get_creators_data(report_month, creator_id=None):
+def get_creators_data(report_month, creator_id=None, manager_id=None):
     """
-    Returns list of creators.
-    If creator_id provided, returns single creator in a list.
+    Returns list of creators with correct global/month rank.
+    - creator_id: filter for a single creator (optional)
+    - manager_id: filter for creators under a specific manager (optional)
     """
-    qs = Creator.objects.select_related("user", "manager__user").filter(
-        report_month=report_month
+
+    qs = (
+        Creator.objects.filter(report_month=report_month)
+        .select_related("user", "manager__user")
+        .order_by("-diamonds")
+        .annotate(rank=Window(expression=RowNumber(), order_by=F("diamonds").desc()))
     )
+
+    creator_list = [
+        {
+            "id": c.id,
+            "username": c.user.username,
+            "manager_id": c.manager.id,
+            "manager_username": c.manager.user.username,
+            "total_coin": c.estimated_bonus_contribution,
+            "total_hour": c.live_duration,
+            "total_diamond": c.diamonds,
+            "rank": c.rank,
+        }
+        for c in qs
+    ]
+
     if creator_id:
-        qs = qs.filter(id=creator_id)
+        creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
 
-    # Annotate rank
-    qs = qs.annotate(
-        rank=Window(
-            expression=RowNumber(), order_by=F("estimated_bonus_contribution").desc()
-        )
-    )
+    if manager_id:
+        creator_list = [c for c in creator_list if c["manager_id"] == int(manager_id)]
 
-    creator_list = []
-    for c in qs:
-        creator_list.append(
-            {
-                "id": c.id,
-                "username": c.user.username,
-                "manager_id": c.manager.id,
-                "manager_username": c.manager.user.username,
-                "total_coin": c.estimated_bonus_contribution,
-                "total_hour": c.live_duration,
-                "total_diamond": c.diamonds,
-                "my_rank": c.rank,
-            }
-        )
     return creator_list
 
 
