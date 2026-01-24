@@ -1,0 +1,626 @@
+{
+    "creator": {
+        "snapshot_time": "202601",
+        "creators": [
+            {
+                "creator_id": "daanbeckk",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "daanbeckk",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "sniper.412",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "sniper.412",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "indryramkhelawan",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "indryramkhelawan",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "jqqvvtt",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "jqqvvtt",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "glenny1996",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "glenny1996",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "quintenhoitzing",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "quintenhoitzing",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "sem.vossen03",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "sem.vossen03",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "mrfubugames",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "mrfubugames",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "cypherqs",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "cypherqs",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "milanojenssen",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "milanojenssen",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "sumcardshop",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "sumcardshop",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "jovannywattel",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "jovannywattel",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "nck.026",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "nck.026",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "marinn207",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "marinn207",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "synalive",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "synalive",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "adjevoordesfeer9",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "adjevoordesfeer9",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "marcianoruisch",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "marcianoruisch",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "iwinkels23",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "iwinkels23",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "silversurferr23",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": true,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "silversurferr23",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            },
+            {
+                "creator_id": "keepchasingg6",
+                "summary": "You are currently behind your monthly target.",
+                "reason": "Your current pace is below what is needed to reach the target within the remaining time.",
+                "suggested_actions": [
+                    "Increase your live frequency over the next few days",
+                    "Focus on maintaining consistent session lengths"
+                ],
+                "scenarios": {
+                    "behind_target": true,
+                    "close_to_target": false,
+                    "exceeding_target": false,
+                    "milestone_near": false,
+                    "declining_vs_last_month": false,
+                    "improving_trend": false,
+                    "low_activity_risk": false,
+                    "close_to_M2": false,
+                    "bonus_opportunity": false
+                },
+                "alert": {
+                    "creator_id": "keepchasingg6",
+                    "type": "performance_alert",
+                    "priority": "high",
+                    "message": "You are falling behind your target. Increasing activity now can help you recover.",
+                    "created_at": "202601",
+                    "expires_at": "202601-31T23:59:59Z",
+                    "status": "active"
+                }
+            }
+        ]
+    },
+    "manager": {
+        "snapshot_time": "202601",
+        "managers": [
+            {
+                "manager_name": "-",
+                "summary": "The team is currently underperforming, with all 20 creators falling behind their targets and several being inactive.",
+                "reason": "Multiple creators are currently off pace and may need attention to improve their performance.",
+                "suggested_actions": [
+                    "Review underperforming creators individually",
+                    "Encourage consistent live schedules",
+                    "Provide additional resources or training for creators"
+                ],
+                "scenarios": {
+                    "team_underperforming": true,
+                    "multiple_inactive_creators": true,
+                    "strong_team_momentum": false
+                },
+                "alert": {
+                    "manager_name": "-",
+                    "type": "team_alert",
+                    "priority": "high",
+                    "message": "Your team has multiple creators behind target.",
+                    "created_at": "202601",
+                    "status": "active"
+                }
+            }
+        ]
+    },
+    "admin": {
+        "snapshot_time": "202601",
+        "summary": "Your agency performance is stable.",
+        "reason": "No major risks or opportunities detected across teams.",
+        "suggested_actions": [
+            "Continue monitoring agency performance"
+        ],
+        "alert": {
+            "active": false
+        }
+    }
+}
