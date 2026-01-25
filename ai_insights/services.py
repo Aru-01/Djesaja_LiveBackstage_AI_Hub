@@ -29,15 +29,15 @@ def auto_run_mode():
 # 2️⃣ Collect managers and creators
 
 
-def collect_managers_and_creators(month_code: str, max_managers=2, max_creators=20):
+def collect_managers_and_creators(month_code: str):
     report_month = ReportingMonth.objects.get(code=month_code)
 
     managers_qs = Manager.objects.filter(report_month=report_month).select_related(
         "user"
-    )[:max_managers]
+    )
     creators_qs = Creator.objects.filter(report_month=report_month).select_related(
         "user", "manager", "manager__user"
-    )[:max_creators]
+    )
 
     managers = []
     for m in managers_qs:
