@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from managers.models import Manager
+
 from accounts.serializers import UserSerializer
+from accounts.models import User
 
 
 class ManagerSerializer(serializers.ModelSerializer):

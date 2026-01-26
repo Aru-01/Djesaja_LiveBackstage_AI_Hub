@@ -20,6 +20,9 @@ class AITarget(models.Model):
             models.Index(fields=["report_month"]),
         ]
 
+    def __str__(self):
+        return f"{self.user.username} x {self.target_diamonds}"
+
 
 class AIMessage(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

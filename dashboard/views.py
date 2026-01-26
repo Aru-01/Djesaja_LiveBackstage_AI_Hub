@@ -13,6 +13,8 @@ from dashboard.serializers import (
     CreatorDashboardSerializer,
 )
 from api.models import ReportingMonth
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 def get_latest_report_month():
@@ -25,8 +27,26 @@ class AdminDashboardView(APIView):
     """
     Admin dashboard
     Optional query param: month=YYYYMM
-    Example: /api/dashboard/admin/?month=202601
     """
+
+    @swagger_auto_schema(
+        operation_summary="Admin Dashboard Overview",
+        tags=["Dashboards"],
+        manual_parameters=[
+            openapi.Parameter(
+                name="month",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Report month in YYYYMM format (default: current month)",
+                example="202601",
+            ),
+        ],
+        responses={
+            200: AdminDashboardSerializer,
+            400: "Invalid month code",
+        },
+    )
 
     # permission_classes = [IsAuthenticated]  # Optional, can comment
 
@@ -43,7 +63,32 @@ class AdminDashboardView(APIView):
 
 
 class ManagerDashboardView(APIView):
-
+    @swagger_auto_schema(
+        operation_summary="Manager Dashboard",
+        tags=["Dashboards"],
+        manual_parameters=[
+            openapi.Parameter(
+                name="month",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Report month (Admin / Public only) - YYYYMM",
+                example="202601",
+            ),
+            openapi.Parameter(
+                name="manager_id",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description="Manager ID (Admin / Public only)",
+            ),
+        ],
+        responses={
+            200: ManagerDashboardSerializer(many=True),
+            400: "Invalid month code",
+            404: "Manager data not found",
+        },
+    )
     def get(self, request):
 
         # 🔐 Logged-in manager
@@ -79,9 +124,35 @@ class CreatorDashboardView(APIView):
     """
     - Logged-in creator → own dashboard (latest month)
     - Logged-in manager → own creators dashboard (latest month)
-    - Admin/public → all or single creator (month optional)
+    - Admin / public → all or single creator (month optional)
     """
 
+    @swagger_auto_schema(
+        operation_summary="Creator Dashboard",
+        tags=["Dashboards"],
+        manual_parameters=[
+            openapi.Parameter(
+                name="month",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Report month (Admin / Public only) - YYYYMM",
+                example="202601",
+            ),
+            openapi.Parameter(
+                name="creator_id",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description="Creator ID (Admin / Public only)",
+            ),
+        ],
+        responses={
+            200: CreatorDashboardSerializer(many=True),
+            400: "Invalid month code",
+            404: "Creator / Manager data not found",
+        },
+    )
     def get(self, request):
 
         # 🔐 Logged-in creator

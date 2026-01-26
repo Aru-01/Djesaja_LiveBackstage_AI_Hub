@@ -1,5 +1,6 @@
 [
-    // monthly response  jeta every month a ekta kore create hobe. and sob  creator / manager er jonno target thakbe. and eikhane jei welcome msg ta ace. ata type o msg o save korbo , and 3 days por msg ta auto remove kore dite chai db theke . db te presure kom dite. and target tao jeno 40 days por remove kore db te presuer kom korte chai.
+    // monthly response:  jeta every month a ekta kore create hobe. and sob  creator / manager er jonno target thakbe. and eikhane jei welcome msg ta ace. ata type o msg o save korbo , and 3 days por msg ta auto remove kore dite chai db theke . db te presure kom dite. and target tao jeno 40 days por remove kore db te presuer kom korte chai.
+    // monthly response:
     {
         "creator_targets": {
             "snapshot_time": "string",
@@ -109,7 +110,7 @@
             ]
         }
     }
-    // daily msg: ata every day creator/ manager & admin k alert or normal reminder type msg dibe.  ekhane summary , reason , suggested_actions ai golo sbr jonnoi asbe and sbr jonnoi lagbe. ai golor sathe creator er aler er moddhe msg tao add kore nio. scenarios and metrics golo user wise alada hocce ai golo o store kora lagbe. and ai data golo create hobe. and sm user jodi er jonno jodi exixt kore tobe update hobe. mane create or update 
+    // daily response:
     {
         "creator": {
             "snapshot_time": "string",
@@ -283,4 +284,5 @@
             }
         }
     }
+    // daily msg: ata every day creator/ manager & admin k alert or normal reminder type msg dibe.  ekhane summary , reason , suggested_actions ai golo sbr jonnoi asbe and sbr jonnoi lagbe. ai golor sathe creator er aler er moddhe msg tao add kore nio. scenarios and metrics golo user wise alada hocce ai golo o store kora lagbe. and ai data golo create hobe. and sm user jodi er jonno jodi exixt kore tobe update hobe. mane create or update 
 ]

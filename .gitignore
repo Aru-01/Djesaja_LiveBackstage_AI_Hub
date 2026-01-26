@@ -5,3 +5,5 @@ _pycache_/
 *.pyc
 
 .env
+
+staticfiles
