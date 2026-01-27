@@ -1,68 +1,64 @@
 [
   {
-    "Creator Network manager": "NICKNICENL",
-    "Eligible creators": "411",
-    "Estimated bonus contribution": "$3,140.00\n\nvs. same period last month\n\n143.41%",
-    "Diamonds": "2,922,252\n\nvs. same period last month\n\n30.05%",
-    "M0.5": "2",
-    "M1": "2",
-    "M2": "2",
-    "M1R": "1",
-    "creators": [
-      {
-        "Creator": "_rockystreams_",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "2,526/75,000\n72,474 Diamonds to M0.5",
-        "Valid go LIVE days": "7 day(s)",
-        "LIVE duration": "21.08 h"
-      },
-      {
-        "Creator": "livedaan",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "6,056/75,000\n68,944 Diamonds to M0.5",
-        "Valid go LIVE days": "2 day(s)",
-        "LIVE duration": "6.97 h"
-      }
-    ]
-  },
-  {
-    "Creator Network manager": "Penny",
-    "Eligible creators": "115",
-    "Estimated bonus contribution": "$1,840.00\n\nvs. same period last month\n\n22.66%",
-    "Diamonds": "1,206,327\n\nvs. same period last month\n\n17.51%",
-    "M0.5": "2",
+    "Creator Network manager": "info",
+    "Eligible creators": "125",
+    "Estimated bonus contribution": "$450.00\n\nvs. same period last month\n\n-",
+    "Diamonds": "975,214\n\nvs. same period last month\n\n234.58%",
+    "M0.5": "1",
     "M1": "1",
-    "M2": "1",
-    "M1R": "1",
+    "M2": "0",
+    "M1R": "0",
     "creators": [
       {
-        "Creator": "ampjuhh",
-        "Estimated bonus contribution": "$1,240.00\n\nvs. same period last month\n\n175.55%",
-        "Achieved milestones": "M0.5\nM1\nM1R\nM2",
-        "Diamonds": "558,899/500,000\nM2\nM1R",
-        "Valid go LIVE days": "24 day(s)",
-        "LIVE duration": "91.62 h"
+        "Creator": "kurasontje",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "7,622/75,000\n67,378 Diamonds to M0.5",
+        "Valid go LIVE days": "12 day(s)",
+        "LIVE duration": "52.77 h"
       },
       {
-        "Creator": "tiktok.mandz",
-        "Estimated bonus contribution": "$450.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "M0.5\nM1",
-        "Diamonds": "202,418/500,000\nM1\n297,582 Diamonds to M2",
-        "Valid go LIVE days": "24 day(s)",
-        "LIVE duration": "88.73 h"
+        "Creator": "azybram",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       },
       {
-        "Creator": "rebbelxo",
-        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "M0.5",
-        "Diamonds": "79,609/150,000\nM0.5\n70,391 Diamonds to M1",
-        "Valid go LIVE days": "19 day(s)",
-        "LIVE duration": "52.64 h"
+        "Creator": "gidirblx",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       },
       {
-        "Creator": "demonslayer.020",
+        "Creator": ".toxic.nl",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "tiktok.nyroofym",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "121/75,000\n74,879 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "4.75 h"
+      },
+      {
+        "Creator": "tiktok_katje",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "32/75,000\n74,968 Diamonds to M0.5",
+        "Valid go LIVE days": "3 day(s)",
+        "LIVE duration": "5.68 h"
+      },
+      {
+        "Creator": "tr1ck503",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
@@ -72,66 +68,390 @@
     ]
   },
   {
-    "Creator Network manager": "Tess",
-    "Eligible creators": "95",
-    "Estimated bonus contribution": "$1,450.00\n\nvs. same period last month\n\n130.15%",
-    "Diamonds": "1,311,190\n\nvs. same period last month\n\n-44.45%",
-    "M0.5": "1",
-    "M1": "1",
-    "M2": "1",
+    "Creator Network manager": "emmawb1607",
+    "Eligible creators": "30",
+    "Estimated bonus contribution": "$300.00\n\nvs. same period last month\n\n-",
+    "Diamonds": "286,616\n\nvs. same period last month\n\n-",
+    "M0.5": "2",
+    "M1": "0",
+    "M2": "0",
     "M1R": "0",
     "creators": [
       {
-        "Creator": "emmak0ster",
-        "Estimated bonus contribution": "$1,000.00\n\nvs. same period last month\n\n316.66%",
-        "Achieved milestones": "M0.5\nM1\nM1R\nM2",
-        "Diamonds": "656,733/500,000\nM2",
-        "Valid go LIVE days": "30 day(s)",
-        "LIVE duration": "187.98 h"
+        "Creator": "daanbeckk",
+        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5",
+        "Diamonds": "76,761/150,000\nM0.5\n73,239 Diamonds to M1",
+        "Valid go LIVE days": "13 day(s)",
+        "LIVE duration": "50.77 h"
       },
       {
-        "Creator": "marrolive",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Creator": "sniper.412",
+        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "M0.5",
-        "Diamonds": "36,489/75,000\n38,511 Diamonds to M0.5",
-        "Valid go LIVE days": "20 day(s)",
-        "LIVE duration": "94.84 h"
+        "Diamonds": "113,165/150,000\nM0.5\n36,835 Diamonds to M1",
+        "Valid go LIVE days": "17 day(s)",
+        "LIVE duration": "74.69 h"
+      },
+      {
+        "Creator": "indryramkhelawan",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5\nM1\nM2",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "jqqvvtt",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "glenny1996",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1/75,000\n74,999 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "5.94 h"
+      },
+      {
+        "Creator": "quintenhoitzing",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "sem.vossen03",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "20,345/75,000\n54,655 Diamonds to M0.5",
+        "Valid go LIVE days": "14 day(s)",
+        "LIVE duration": "78.75 h"
+      },
+      {
+        "Creator": "mrfubugames",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,706/75,000\n73,294 Diamonds to M0.5",
+        "Valid go LIVE days": "7 day(s)",
+        "LIVE duration": "19.14 h"
+      },
+      {
+        "Creator": "cypherqs",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "3 day(s)",
+        "LIVE duration": "7.12 h"
+      },
+      {
+        "Creator": "milanojenssen",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "28,226/75,000\n46,774 Diamonds to M0.5",
+        "Valid go LIVE days": "4 day(s)",
+        "LIVE duration": "6.19 h"
+      },
+      {
+        "Creator": "sumcardshop",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "112/75,000\n74,888 Diamonds to M0.5",
+        "Valid go LIVE days": "4 day(s)",
+        "LIVE duration": "19.76 h"
+      },
+      {
+        "Creator": "jovannywattel",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "10/75,000\n74,990 Diamonds to M0.5",
+        "Valid go LIVE days": "8 day(s)",
+        "LIVE duration": "33.8 h"
+      },
+      {
+        "Creator": "nck.026",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "433/75,000\n74,567 Diamonds to M0.5",
+        "Valid go LIVE days": "15 day(s)",
+        "LIVE duration": "42.55 h"
+      },
+      {
+        "Creator": "marinn207",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1/75,000\n74,999 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.93 h"
+      },
+      {
+        "Creator": "synalive",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "66/75,000\n74,934 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "1.99 h"
+      },
+      {
+        "Creator": "adjevoordesfeer9",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,068/75,000\n73,932 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "6.07 h"
+      },
+      {
+        "Creator": "marcianoruisch",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "4/75,000\n74,996 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.3 h"
+      },
+      {
+        "Creator": "iwinkels23",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1/75,000\n74,999 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.27 h"
+      },
+      {
+        "Creator": "silversurferr23",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.82 h"
+      },
+      {
+        "Creator": "keepchasingg6",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "9,356/75,000\n65,644 Diamonds to M0.5",
+        "Valid go LIVE days": "3 day(s)",
+        "LIVE duration": "7.07 h"
+      },
+      {
+        "Creator": "trinna050",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.56 h"
+      },
+      {
+        "Creator": "bartekned",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "16/75,000\n74,984 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "5.57 h"
+      },
+      {
+        "Creator": "wkeyedby1",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,255/75,000\n73,745 Diamonds to M0.5",
+        "Valid go LIVE days": "4 day(s)",
+        "LIVE duration": "7.12 h"
+      },
+      {
+        "Creator": "slurpdiedurp",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "259/75,000\n74,741 Diamonds to M0.5",
+        "Valid go LIVE days": "5 day(s)",
+        "LIVE duration": "13.4 h"
+      },
+      {
+        "Creator": ".tulpje",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.06 h"
+      },
+      {
+        "Creator": "naut_live2",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,814/75,000\n73,186 Diamonds to M0.5",
+        "Valid go LIVE days": "5 day(s)",
+        "LIVE duration": "11.74 h"
+      },
+      {
+        "Creator": "siemplyme0",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "30,673/75,000\n44,327 Diamonds to M0.5",
+        "Valid go LIVE days": "10 day(s)",
+        "LIVE duration": "51.48 h"
+      },
+      {
+        "Creator": "javatarnl",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,344/75,000\n73,656 Diamonds to M0.5",
+        "Valid go LIVE days": "5 day(s)",
+        "LIVE duration": "16.87 h"
+      },
+      {
+        "Creator": "just.gijs.3",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0.25 h"
+      },
+      {
+        "Creator": "dr.charlatan2",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "1.44 h"
       }
     ]
   },
   {
-    "Creator Network manager": "AltijdMartin",
-    "Eligible creators": "19",
-    "Estimated bonus contribution": "$1,240.00\n\nvs. same period last month\n\n106.66%",
-    "Diamonds": "573,914\n\nvs. same period last month\n\n29.27%",
+    "Creator Network manager": "romannstreppel",
+    "Eligible creators": "122",
+    "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
+    "Diamonds": "372,591\n\nvs. same period last month\n\n3,607.74%",
+    "M0.5": "1",
+    "M1": "0",
+    "M2": "0",
+    "M1R": "0",
+    "creators": [
+      {
+        "Creator": "britt0178x",
+        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5",
+        "Diamonds": "85,435/150,000\nM0.5\n64,565 Diamonds to M1",
+        "Valid go LIVE days": "15 day(s)",
+        "LIVE duration": "49.16 h"
+      },
+      {
+        "Creator": "boomstamtoptalentageny",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "4/75,000\n74,996 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "3.17 h"
+      }
+    ]
+  },
+  {
+    "Creator Network manager": "tesswoesthuis",
+    "Eligible creators": "99",
+    "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
+    "Diamonds": "218,548\n\nvs. same period last month\n\n-70.3%",
+    "M0.5": "1",
+    "M1": "0",
+    "M2": "0",
+    "M1R": "0",
+    "creators": [
+      {
+        "Creator": "marrolive",
+        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5",
+        "Diamonds": "91,165/150,000\nM0.5\n58,835 Diamonds to M1",
+        "Valid go LIVE days": "16 day(s)",
+        "LIVE duration": "73.28 h"
+      }
+    ]
+  },
+  {
+    "Creator Network manager": "schukkinkdanique",
+    "Eligible creators": "13",
+    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+    "Diamonds": "7,874\n\nvs. same period last month\n\n-90.82%",
     "M0.5": "0",
     "M1": "0",
-    "M2": "1",
-    "M1R": "1",
+    "M2": "0",
+    "M1R": "0",
     "creators": [
+      {
+        "Creator": "vincent.lagraauw",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "stefx10__",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "y.ktb",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "zyntrix_toptalentagency",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+        "Achieved milestones": "M0.5",
+        "Diamonds": "5,560/150,000\n144,440 Diamonds to M1",
+        "Valid go LIVE days": "6 day(s)",
+        "LIVE duration": "17.27 h"
+      }
+    ]
+  },
+  {
+    "Creator Network manager": "m.g.kooiker",
+    "Eligible creators": "18",
+    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+    "Diamonds": "52,884\n\nvs. same period last month\n\n-88.39%",
+    "M0.5": "0",
+    "M1": "0",
+    "M2": "0",
+    "M1R": "0",
+    "creators": [
+      {
+        "Creator": "marieclaire_x",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "1,756/75,000\n73,244 Diamonds to M0.5",
+        "Valid go LIVE days": "10 day(s)",
+        "LIVE duration": "39.19 h"
+      },
       {
         "Creator": "basicivo",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "2,195/75,000\n72,805 Diamonds to M0.5",
-        "Valid go LIVE days": "19 day(s)",
-        "LIVE duration": "48.89 h"
+        "Diamonds": "143/75,000\n74,857 Diamonds to M0.5",
+        "Valid go LIVE days": "11 day(s)",
+        "LIVE duration": "31.65 h"
       },
       {
         "Creator": "noscxpetv",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "2 day(s)",
-        "LIVE duration": "4.38 h"
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       },
       {
         "Creator": "xlchris2006",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "8,428/75,000\n66,572 Diamonds to M0.5",
-        "Valid go LIVE days": "20 day(s)",
-        "LIVE duration": "63.56 h"
+        "Diamonds": "2,080/75,000\n72,920 Diamonds to M0.5",
+        "Valid go LIVE days": "12 day(s)",
+        "LIVE duration": "32.69 h"
       },
       {
         "Creator": "dolfmannetjesiii",
@@ -145,33 +465,33 @@
         "Creator": "forcegamernl",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "3/75,000\n74,997 Diamonds to M0.5",
-        "Valid go LIVE days": "2 day(s)",
-        "LIVE duration": "5.16 h"
+        "Diamonds": "92/75,000\n74,908 Diamonds to M0.5",
+        "Valid go LIVE days": "5 day(s)",
+        "LIVE duration": "8.96 h"
       },
       {
         "Creator": "vaderdeanmc",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.07 h"
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "3.06 h"
       },
       {
         "Creator": "snowy._20",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.4 h"
+        "Diamonds": "224/75,000\n74,776 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "4.21 h"
       },
       {
         "Creator": "techdennis_",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "1,664/75,000\n73,336 Diamonds to M0.5",
-        "Valid go LIVE days": "8 day(s)",
-        "LIVE duration": "19.65 h"
+        "Diamonds": "1,253/75,000\n73,747 Diamonds to M0.5",
+        "Valid go LIVE days": "3 day(s)",
+        "LIVE duration": "7.21 h"
       },
       {
         "Creator": "user48488483839393",
@@ -193,9 +513,9 @@
         "Creator": "dje8100",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "474/75,000\n74,526 Diamonds to M0.5",
-        "Valid go LIVE days": "13 day(s)",
-        "LIVE duration": "28.29 h"
+        "Diamonds": "61/75,000\n74,939 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "3 h"
       },
       {
         "Creator": "_scrolling17_",
@@ -209,9 +529,9 @@
         "Creator": "_densa_4",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "25/75,000\n74,975 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "1.81 h"
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "2.32 h"
       },
       {
         "Creator": "tvvirality",
@@ -219,139 +539,39 @@
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
         "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.12 h"
+        "LIVE duration": "0 h"
       },
       {
         "Creator": "juliustester12",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "171/75,000\n74,829 Diamonds to M0.5",
-        "Valid go LIVE days": "10 day(s)",
-        "LIVE duration": "38.04 h"
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "7.73 h"
       },
       {
         "Creator": "tije_tt",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "12,279/75,000\n62,721 Diamonds to M0.5",
+        "Diamonds": "97/75,000\n74,903 Diamonds to M0.5",
         "Valid go LIVE days": "8 day(s)",
-        "LIVE duration": "14.7 h"
+        "LIVE duration": "13.61 h"
       },
       {
         "Creator": "rednaxofz",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "M0.5",
-        "Diamonds": "43,916/150,000\n106,084 Diamonds to M1",
-        "Valid go LIVE days": "19 day(s)",
-        "LIVE duration": "43.1 h"
+        "Diamonds": "47,178/150,000\n102,822 Diamonds to M1",
+        "Valid go LIVE days": "12 day(s)",
+        "LIVE duration": "27.87 h"
       }
     ]
   },
   {
-    "Creator Network manager": "Mike",
-    "Eligible creators": "88",
-    "Estimated bonus contribution": "$1,200.00\n\nvs. same period last month\n\n700%",
-    "Diamonds": "773,271\n\nvs. same period last month\n\n127.24%",
-    "M0.5": "4",
-    "M1": "2",
-    "M2": "0",
-    "M1R": "0",
-    "creators": [
-      {
-        "Creator": "ayas.live1",
-        "Estimated bonus contribution": "$450.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "M0.5\nM1",
-        "Diamonds": "183,775/500,000\nM1\n316,225 Diamonds to M2",
-        "Valid go LIVE days": "28 day(s)",
-        "LIVE duration": "125.2 h"
-      },
-      {
-        "Creator": "officialrickerd",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "viperdanny1",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "67/75,000\n74,933 Diamonds to M0.5",
-        "Valid go LIVE days": "5 day(s)",
-        "LIVE duration": "9.07 h"
-      }
-    ]
-  },
-  {
-    "Creator Network manager": "mis_keny1",
-    "Eligible creators": "11",
-    "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
-    "Diamonds": "90,604\n\nvs. same period last month\n\n87.57%",
-    "M0.5": "1",
-    "M1": "0",
-    "M2": "0",
-    "M1R": "0",
-    "creators": [
-      {
-        "Creator": "zyntrix_toptalentagency",
-        "Estimated bonus contribution": "$150.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "M0.5",
-        "Diamonds": "87,624/150,000\nM0.5\n62,376 Diamonds to M1",
-        "Valid go LIVE days": "21 day(s)",
-        "LIVE duration": "82.06 h"
-      },
-      {
-        "Creator": "vincent.lagraauw",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.57 h"
-      },
-      {
-        "Creator": "y.ktb",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "1 day(s)",
-        "LIVE duration": "6.31 h"
-      }
-    ]
-  },
-  {
-    "Creator Network manager": "Djes.",
-    "Eligible creators": "73",
+    "Creator Network manager": "t.cntrl.zakelijk",
+    "Eligible creators": "51",
     "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-    "Diamonds": "140,916\n\nvs. same period last month\n\n-",
-    "M0.5": "0",
-    "M1": "0",
-    "M2": "0",
-    "M1R": "0",
-    "creators": [
-      {
-        "Creator": "lucasvdglind",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "boomstamtoptalentageny",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      }
-    ]
-  },
-  {
-    "Creator Network manager": "Cntrl",
-    "Eligible creators": "53",
-    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
-    "Diamonds": "165,233\n\nvs. same period last month\n\n6.05%",
+    "Diamonds": "19,846\n\nvs. same period last month\n\n-74.2%",
     "M0.5": "0",
     "M1": "0",
     "M2": "0",
@@ -361,17 +581,17 @@
         "Creator": "djason.04133",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Diamonds": "2/75,000\n74,998 Diamonds to M0.5",
         "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
+        "LIVE duration": "0.3 h"
       },
       {
         "Creator": "pinguingamer712",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "6,901/75,000\n68,099 Diamonds to M0.5",
-        "Valid go LIVE days": "12 day(s)",
-        "LIVE duration": "33.9 h"
+        "Diamonds": "111/75,000\n74,889 Diamonds to M0.5",
+        "Valid go LIVE days": "2 day(s)",
+        "LIVE duration": "3.6 h"
       },
       {
         "Creator": "p4ck15",
@@ -380,34 +600,134 @@
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
         "Valid go LIVE days": "0 day(s)",
         "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "ronandan",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "waiting_48",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "mootjeoss",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "djess.live",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       }
     ]
   },
   {
-    "Creator Network manager": "0",
-    "Eligible creators": "1",
+    "Creator Network manager": "mike08martens",
+    "Eligible creators": "89",
     "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
-    "Diamonds": "26,827\n\nvs. same period last month\n\n-93.11%",
+    "Diamonds": "270,154\n\nvs. same period last month\n\n35.81%",
     "M0.5": "0",
     "M1": "0",
     "M2": "0",
     "M1R": "0",
     "creators": [
       {
-        "Creator": "tygootten",
+        "Creator": "officialrickerd",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "M0.5",
-        "Diamonds": "26,827/150,000\n123,173 Diamonds to M1",
-        "Valid go LIVE days": "8 day(s)",
-        "LIVE duration": "45.15 h"
+        "Achieved milestones": "No milestones",
+        "Diamonds": "2,255/75,000\n72,745 Diamonds to M0.5",
+        "Valid go LIVE days": "7 day(s)",
+        "LIVE duration": "19.36 h"
+      },
+      {
+        "Creator": "ayas.live1",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5\nM1",
+        "Diamonds": "8,129/150,000\n141,871 Diamonds to M1 retention",
+        "Valid go LIVE days": "4 day(s)",
+        "LIVE duration": "10.76 h"
+      },
+      {
+        "Creator": "viperdanny1",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "m_mike.tt",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+        "Achieved milestones": "M0.5\nM1",
+        "Diamonds": "40,613/150,000\n109,387 Diamonds to M1 retention",
+        "Valid go LIVE days": "9 day(s)",
+        "LIVE duration": "28.64 h"
+      },
+      {
+        "Creator": "ayas.live0",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "8,431/75,000\n66,569 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "3.57 h"
       }
     ]
   },
   {
-    "Creator Network manager": "Trooperzz",
-    "Eligible creators": "80",
+    "Creator Network manager": "tangeldernick",
+    "Eligible creators": "415",
     "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
-    "Diamonds": "444,702\n\nvs. same period last month\n\n-64.25%",
+    "Diamonds": "677,321\n\nvs. same period last month\n\n-56.99%",
+    "M0.5": "0",
+    "M1": "0",
+    "M2": "0",
+    "M1R": "0",
+    "creators": [
+      {
+        "Creator": "_rockystreams_",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "83/75,000\n74,917 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "1.27 h"
+      },
+      {
+        "Creator": "livedaan",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "29/75,000\n74,971 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "1.55 h"
+      },
+      {
+        "Creator": "therealshadowreaperyt",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "1.98 h"
+      }
+    ]
+  },
+  {
+    "Creator Network manager": "vincebosps4",
+    "Eligible creators": "79",
+    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+    "Diamonds": "348,481\n\nvs. same period last month\n\n34.93%",
     "M0.5": "0",
     "M1": "0",
     "M2": "0",
@@ -415,42 +735,58 @@
     "creators": [
       {
         "Creator": "chrishempie",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "M0.5",
-        "Diamonds": "2,798/150,000\n147,202 Diamonds to M1",
-        "Valid go LIVE days": "3 day(s)",
-        "LIVE duration": "6.45 h"
+        "Diamonds": "0/150,000\n150,000 Diamonds to M1",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       },
       {
         "Creator": "xc00kieladyx",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "894/75,000\n74,106 Diamonds to M0.5",
+        "Diamonds": "4/75,000\n74,996 Diamonds to M0.5",
+        "Valid go LIVE days": "1 day(s)",
+        "LIVE duration": "2.32 h"
+      },
+      {
+        "Creator": "levi.v.h0",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "danteetje_2006",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "192/75,000\n74,808 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "1.05 h"
+      },
+      {
+        "Creator": "caylanarrow",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "27,801/75,000\n47,199 Diamonds to M0.5",
         "Valid go LIVE days": "7 day(s)",
-        "LIVE duration": "21.33 h"
+        "LIVE duration": "29.4 h"
       }
     ]
   },
   {
-    "Creator Network manager": "Djes",
-    "Eligible creators": "125",
-    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-    "Diamonds": "621,063\n\nvs. same period last month\n\n498.81%",
+    "Creator Network manager": "matronepenelope08",
+    "Eligible creators": "118",
+    "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-100%",
+    "Diamonds": "322,597\n\nvs. same period last month\n\n-50.16%",
     "M0.5": "0",
     "M1": "0",
     "M2": "0",
     "M1R": "0",
     "creators": [
       {
-        "Creator": "kurasontje",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "10,184/75,000\n64,816 Diamonds to M0.5",
-        "Valid go LIVE days": "26 day(s)",
-        "LIVE duration": "110.78 h"
-      },
-      {
-        "Creator": "tabithh01",
+        "Creator": "demonslayer.020",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
@@ -458,7 +794,23 @@
         "LIVE duration": "0 h"
       },
       {
-        "Creator": "ulikeyaz",
+        "Creator": "cj_live_",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "6,719/75,000\n68,281 Diamonds to M0.5",
+        "Valid go LIVE days": "6 day(s)",
+        "LIVE duration": "15.06 h"
+      },
+      {
+        "Creator": "rebbelxo",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "M0.5",
+        "Diamonds": "52,452/150,000\n97,548 Diamonds to M1",
+        "Valid go LIVE days": "13 day(s)",
+        "LIVE duration": "36.51 h"
+      },
+      {
+        "Creator": "trippel_ff0",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
         "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
@@ -466,92 +818,20 @@
         "LIVE duration": "0 h"
       },
       {
-        "Creator": "jeffstarzero",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "techie.nl",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "hugosn015",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "thilowbota",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "tttr1ck",
+        "Creator": "tiktok.mandz",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "M0.5\nM1",
-        "Diamonds": "106/500,000\n499,894 Diamonds to M2",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.94 h"
-      },
-      {
-        "Creator": "la_zwll",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "wrxyyttlive",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "tiktok.nyroofym",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "49/75,000\n74,951 Diamonds to M0.5",
+        "Diamonds": "37,109/150,000\n112,891 Diamonds to M1 retention",
         "Valid go LIVE days": "2 day(s)",
-        "LIVE duration": "5.18 h"
-      },
-      {
-        "Creator": "tiktok_katje",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
-        "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0 h"
-      },
-      {
-        "Creator": "tr1ck503",
-        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-        "Achieved milestones": "No milestones",
-        "Diamonds": "1,963/75,000\n73,037 Diamonds to M0.5",
-        "Valid go LIVE days": "1 day(s)",
-        "LIVE duration": "3.89 h"
+        "LIVE duration": "4.25 h"
       }
     ]
   },
   {
     "Creator Network manager": "-",
-    "Eligible creators": "101",
+    "Eligible creators": "93",
     "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
-    "Diamonds": "499,627\n\nvs. same period last month\n\n-",
+    "Diamonds": "323,611\n\nvs. same period last month\n\n-",
     "M0.5": "0",
     "M1": "0",
     "M2": "0",
@@ -561,17 +841,25 @@
         "Creator": "kevincorteza",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "2,601/75,000\n72,399 Diamonds to M0.5",
-        "Valid go LIVE days": "5 day(s)",
-        "LIVE duration": "11.07 h"
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "0 h"
       },
       {
         "Creator": "siennajoanna_rflx",
         "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
         "Achieved milestones": "No milestones",
-        "Diamonds": "1/75,000\n74,999 Diamonds to M0.5",
+        "Diamonds": "0/75,000\n75,000 Diamonds to M0.5",
         "Valid go LIVE days": "0 day(s)",
-        "LIVE duration": "0.93 h"
+        "LIVE duration": "0 h"
+      },
+      {
+        "Creator": "danarobina",
+        "Estimated bonus contribution": "$0.00\n\nvs. same period last month\n\n-",
+        "Achieved milestones": "No milestones",
+        "Diamonds": "444/75,000\n74,556 Diamonds to M0.5",
+        "Valid go LIVE days": "0 day(s)",
+        "LIVE duration": "3.02 h"
       }
     ]
   }
