@@ -6,6 +6,20 @@ from django.utils import timezone
 from creators.models import Creator
 from managers.models import Manager
 from api.models import ReportingMonth
+from ai_insights.models import AITarget, AIManagerTarget
+
+
+def get_prev_month_of(report_month):
+    """
+    Return previous ReportingMonth object before the given report_month
+    If none exists, return None
+    """
+    prev_month = (
+        ReportingMonth.objects.filter(code__lt=report_month.code)
+        .order_by("-code")
+        .first()
+    )
+    return prev_month
 
 
 def get_report_month(month_code=None):
@@ -26,10 +40,7 @@ User = get_user_model()
 
 
 def get_managers_data(report_month, manager_id=None):
-    """
-    Returns list of managers with correct rank based on total diamonds of their creators.
-    Aggregates total_hour, total_coin, total_diamond, my_creators.
-    """
+    prev_month = get_prev_month_of(report_month)
 
     qs = (
         Manager.objects.filter(report_month=report_month)
@@ -57,18 +68,30 @@ def get_managers_data(report_month, manager_id=None):
         .order_by("-total_diamond")
     )
 
-    manager_list = [
-        {
-            "id": m.id,
-            "username": m.user.username,
-            "my_creators": m.my_creators or 0,
-            "rank": m.rank,
-            "total_coin": m.total_coin or 0,
-            "total_hour": m.total_hour or 0,
-            "total_diamond": m.total_diamond or 0,
-        }
-        for m in qs
-    ]
+    manager_list = []
+    for m in qs:
+        # default target
+        target_diamonds = 0
+
+        if prev_month:
+            target = AIManagerTarget.objects.filter(
+                user=m.user, report_month=prev_month
+            ).first()
+            if target:
+                target_diamonds = target.team_target_diamonds or 0
+
+        manager_list.append(
+            {
+                "id": m.id,
+                "username": m.user.username,
+                "my_creators": m.my_creators or 0,
+                "rank": m.rank,
+                "total_coin": m.total_coin or 0,
+                "total_hour": m.total_hour or 0,
+                "total_diamond": m.total_diamond or 0,
+                "target_diamonds": target_diamonds,
+            }
+        )
 
     if manager_id:
         manager_list = [m for m in manager_list if m["id"] == int(manager_id)]
@@ -77,11 +100,7 @@ def get_managers_data(report_month, manager_id=None):
 
 
 def get_creators_data(report_month, creator_id=None, manager_id=None):
-    """
-    Returns list of creators with correct global/month rank.
-    - creator_id: filter for a single creator (optional)
-    - manager_id: filter for creators under a specific manager (optional)
-    """
+    prev_month = get_prev_month_of(report_month)
 
     qs = (
         Creator.objects.filter(report_month=report_month)
@@ -90,19 +109,30 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
         .annotate(rank=Window(expression=RowNumber(), order_by=F("diamonds").desc()))
     )
 
-    creator_list = [
-        {
-            "id": c.id,
-            "username": c.user.username,
-            "manager_id": c.manager.id,
-            "manager_username": c.manager.user.username,
-            "total_coin": c.estimated_bonus_contribution,
-            "total_hour": c.live_duration,
-            "total_diamond": c.diamonds,
-            "rank": c.rank,
-        }
-        for c in qs
-    ]
+    creator_list = []
+    for c in qs:
+        target_diamonds = 0
+
+        if prev_month:
+            target = AITarget.objects.filter(
+                user=c.user, report_month=prev_month
+            ).first()
+            if target:
+                target_diamonds = target.target_diamonds or 0
+
+        creator_list.append(
+            {
+                "id": c.id,
+                "username": c.user.username,
+                "manager_id": c.manager.id if c.manager else None,
+                "manager_username": c.manager.user.username if c.manager else None,
+                "total_coin": c.estimated_bonus_contribution,
+                "total_hour": c.live_duration,
+                "total_diamond": c.diamonds,
+                "rank": c.rank,
+                "target_diamonds": target_diamonds,
+            }
+        )
 
     if creator_id:
         creator_list = [c for c in creator_list if c["id"] == int(creator_id)]

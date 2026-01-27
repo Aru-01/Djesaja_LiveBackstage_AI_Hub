@@ -3,6 +3,19 @@ from accounts.models import User
 from api.models import ReportingMonth
 
 
+class AIManagerTarget(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    report_month = models.ForeignKey(ReportingMonth, on_delete=models.CASCADE)
+    team_target_diamonds = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "report_month")
+
+    def __str__(self):
+        return f"{self.user.username} x {self.team_target_diamonds}"
+
+
 class AITarget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report_month = models.ForeignKey(ReportingMonth, on_delete=models.CASCADE)
@@ -39,6 +52,9 @@ class AIMessage(models.Model):
             models.Index(fields=["user"]),
         ]
 
+    def __str__(self):
+        return f"{self.user.username} x {self.message_type}"
+
 
 class AIDailySummary(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -60,6 +76,9 @@ class AIDailySummary(models.Model):
             models.Index(fields=["priority"]),
         ]
 
+    def __str__(self):
+        return f"{self.user.username} x {self.reason}"
+
 
 class AIScenario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -79,14 +98,12 @@ class AIScenario(models.Model):
 class AIMetric(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report_month = models.ForeignKey(ReportingMonth, on_delete=models.CASCADE)
-
-    key = models.CharField(max_length=50)
-    value = models.FloatField()
+    data = models.JSONField(default=dict)
 
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("user", "report_month", "key")
+        unique_together = ("user", "report_month")
         indexes = [
-            models.Index(fields=["report_month", "key"]),
+            models.Index(fields=["report_month"]),
         ]

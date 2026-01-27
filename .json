@@ -286,3 +286,22 @@
     }
     // daily msg: ata every day creator/ manager & admin k alert or normal reminder type msg dibe.  ekhane summary , reason , suggested_actions ai golo sbr jonnoi asbe and sbr jonnoi lagbe. ai golor sathe creator er aler er moddhe msg tao add kore nio. scenarios and metrics golo user wise alada hocce ai golo o store kora lagbe. and ai data golo create hobe. and sm user jodi er jonno jodi exixt kore tobe update hobe. mane create or update 
 ]
+
+
+
+target: {
+    diomond:
+} // target ta prev month diye set kora. curr month er target prev month diye set kora . so prev month ace. 
+
+welcome_msg{
+    msg_type:
+    msg:
+}
+daily_summary{
+    summary:
+    reason:
+    suggested_action: (ei golo list hoye[]ace. bt noraml kore deya jay na? )
+    alert_type:
+    priority:
+    status:
+}

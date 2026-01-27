@@ -18,6 +18,7 @@ class ManagerDashboardSerializer(serializers.Serializer):
     total_coin = serializers.FloatField()
     total_hour = serializers.FloatField()
     total_diamond = serializers.IntegerField()
+    target_diamonds = serializers.IntegerField()
 
 
 class CreatorDashboardSerializer(serializers.Serializer):
@@ -28,4 +29,5 @@ class CreatorDashboardSerializer(serializers.Serializer):
     total_coin = serializers.FloatField()
     total_hour = serializers.FloatField()
     total_diamond = serializers.IntegerField()
+    target_diamonds = serializers.IntegerField()
     rank = serializers.IntegerField()
