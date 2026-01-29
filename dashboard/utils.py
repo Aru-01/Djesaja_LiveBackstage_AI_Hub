@@ -60,6 +60,7 @@ User = get_user_model()
 
 def get_managers_data(report_month, manager_id=None):
     prev_month = get_prev_month_of(report_month)
+    last_months_codes = get_prev_n_months_codes(report_month, n=3)
 
     qs = (
         Manager.objects.filter(report_month=report_month)
@@ -87,17 +88,34 @@ def get_managers_data(report_month, manager_id=None):
         .order_by("-total_diamond")
     )
 
+    manager_ids = [m.id for m in qs]
+
+    # 🔹 last 3 months diamonds sum for all managers
+    diamonds_qs = (
+        Creator.objects.filter(
+            manager_id__in=manager_ids, report_month__code__in=last_months_codes
+        )
+        .values("manager_id", "report_month__code")
+        .annotate(total_diamonds=Sum("diamonds"))
+    )
+    diamonds_lookup = {}
+    for row in diamonds_qs:
+        diamonds_lookup.setdefault(row["manager_id"], {})[row["report_month__code"]] = (
+            row["total_diamonds"]
+        )
+
+    # 🔹 prev_month targets for all managers
+    targets_qs = AIManagerTarget.objects.filter(
+        user_id__in=[m.user.id for m in qs], report_month=prev_month
+    )
+    targets_lookup = {t.user_id: t.team_target_diamonds or 0 for t in targets_qs}
+
     manager_list = []
     for m in qs:
-        # default target
-        target_diamonds = 0
-
-        if prev_month:
-            target = AIManagerTarget.objects.filter(
-                user=m.user, report_month=prev_month
-            ).first()
-            if target:
-                target_diamonds = target.team_target_diamonds or 0
+        last_3_diamonds = [
+            diamonds_lookup.get(m.id, {}).get(code, 0) for code in last_months_codes
+        ]
+        target_diamonds = targets_lookup.get(m.user.id, 0)
 
         manager_list.append(
             {
@@ -109,6 +127,7 @@ def get_managers_data(report_month, manager_id=None):
                 "total_hour": m.total_hour or 0,
                 "total_diamond": m.total_diamond or 0,
                 "target_diamonds": target_diamonds,
+                "last_3_months_diamonds": last_3_diamonds,
             }
         )
 
@@ -120,12 +139,37 @@ def get_managers_data(report_month, manager_id=None):
 
 def get_creators_data(report_month, creator_id=None, manager_id=None):
     prev_month = get_prev_month_of(report_month)
+    last_months_codes = get_prev_n_months_codes(report_month, n=3)
 
+    # 🔹 fetch all creators in one query
     qs = Creator.objects.filter(
-        report_month=report_month, manager_id=manager_id  # 🔥 manager wise filter
+        report_month=report_month, manager_id=manager_id
     ).select_related("user", "manager__user")
 
-    # 🔥 manager-wise ranking
+    # 🔹 fetch all last 3 months diamonds for these creators
+    creator_ids = [c.user.id for c in qs]
+    diamonds_qs = (
+        Creator.objects.filter(
+            user_id__in=creator_ids, report_month__code__in=last_months_codes
+        )
+        .values("user_id", "report_month__code")
+        .annotate(total_diamonds=Sum("diamonds"))
+    )
+
+    # 🔹 create lookup dict
+    diamonds_lookup = {}
+    for row in diamonds_qs:
+        diamonds_lookup.setdefault(row["user_id"], {})[row["report_month__code"]] = row[
+            "total_diamonds"
+        ]
+
+    # 🔹 fetch all prev_month targets at once
+    targets_qs = AITarget.objects.filter(
+        user_id__in=creator_ids, report_month=prev_month
+    )
+    targets_lookup = {t.user_id: t.target_diamonds or 0 for t in targets_qs}
+
+    # 🔹 ranking
     qs = qs.annotate(
         rank=Window(
             expression=RowNumber(),
@@ -135,27 +179,12 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
     ).order_by("-diamonds")
 
     creator_list = []
-
     for c in qs:
-        target_diamonds = 0
-        if prev_month:
-            target = AITarget.objects.filter(
-                user=c.user, report_month=prev_month
-            ).first()
-            if target:
-                target_diamonds = target.target_diamonds or 0
-
-        last_months_codes = get_prev_n_months_codes(report_month, n=3)
-        last_3_diamonds = []
-
-        for m_code in last_months_codes:
-            creator_obj = Creator.objects.filter(
-                user=c.user, report_month__code=m_code
-            ).first()
-            if creator_obj:
-                last_3_diamonds.append(creator_obj.diamonds)
-            else:
-                last_3_diamonds.append(0)
+        last_3_diamonds = [
+            diamonds_lookup.get(c.user.id, {}).get(code, 0)
+            for code in last_months_codes
+        ]
+        target_diamonds = targets_lookup.get(c.user.id, 0)
 
         creator_list.append(
             {

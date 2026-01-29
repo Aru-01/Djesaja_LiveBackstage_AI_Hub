@@ -6,8 +6,8 @@ class AdminDashboardSerializer(serializers.Serializer):
     total_managers = serializers.IntegerField()
     scrape_today = serializers.IntegerField()
     total_diamond_achieve = serializers.IntegerField()
-    total_coin = serializers.FloatField()
-    total_hour = serializers.FloatField()
+    total_coin = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_hour = serializers.DecimalField(max_digits=10, decimal_places=2)
 
 
 class ManagerDashboardSerializer(serializers.Serializer):
@@ -15,8 +15,9 @@ class ManagerDashboardSerializer(serializers.Serializer):
     username = serializers.CharField()
     my_creators = serializers.IntegerField()
     rank = serializers.IntegerField()
-    total_coin = serializers.FloatField()
-    total_hour = serializers.FloatField()
+    last_3_months_diamonds = serializers.ListField()
+    total_coin = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_hour = serializers.DecimalField(max_digits=10, decimal_places=2)
     total_diamond = serializers.IntegerField()
     target_diamonds = serializers.IntegerField()
 
@@ -26,8 +27,8 @@ class CreatorDashboardSerializer(serializers.Serializer):
     username = serializers.CharField()
     manager_id = serializers.IntegerField()
     manager_username = serializers.CharField()
-    total_coin = serializers.FloatField()
-    total_hour = serializers.FloatField()
+    total_coin = serializers.DecimalField(max_digits=10, decimal_places=2)
+    total_hour = serializers.DecimalField(max_digits=10, decimal_places=2)
     total_diamond = serializers.IntegerField()
     last_3_months_diamonds = serializers.ListField()
     target_diamonds = serializers.IntegerField()

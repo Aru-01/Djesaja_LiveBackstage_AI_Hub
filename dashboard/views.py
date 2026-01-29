@@ -63,7 +63,7 @@ class AdminDashboardView(APIView):
 
 
 class ManagerDashboardView(APIView):
-    permission_classes = [IsManager]
+    permission_classes = [IsManager | IsAdmin]
 
     @swagger_auto_schema(
         operation_summary="Manager Dashboard",
@@ -74,7 +74,7 @@ class ManagerDashboardView(APIView):
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
                 required=False,
-                description="Report month (Admin / Public only) - YYYYMM",
+                description="Report month (Admin only) - YYYYMM",
                 example="202601",
             ),
             openapi.Parameter(
@@ -82,7 +82,7 @@ class ManagerDashboardView(APIView):
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_INTEGER,
                 required=False,
-                description="Manager ID (Admin / Public only)",
+                description="Manager ID (Admin only, optional)",
             ),
         ],
         responses={
@@ -93,31 +93,30 @@ class ManagerDashboardView(APIView):
     )
     def get(self, request):
 
-        # 🔐 Logged-in manager
-        if request.user.is_authenticated and request.user.role == "MANAGER":
-            report_month = get_latest_report_month()
+        month_code = request.GET.get("month")
+        try:
+            report_month = get_report_month(month_code)
+        except ReportingMonth.DoesNotExist:
+            return Response({"error": "Invalid month code"}, status=400)
+
+        if request.user.role == "MANAGER":
             manager = request.user.manager_profile.filter(
                 report_month=report_month
             ).first()
-
             if not manager:
                 return Response(
                     {"error": "Manager data not found for this month"}, status=404
                 )
-
             manager_id = manager.id
+            data = get_managers_data(report_month, manager_id=manager_id)
+
+        elif request.user.role in "SUPER_ADMIN":
+            manager_id = request.GET.get("manager_id")
+            data = get_managers_data(report_month, manager_id=manager_id)
 
         else:
-            # 🌐 Admin / public
-            month_code = request.GET.get("month")
-            manager_id = request.GET.get("manager_id")
+            return Response({"error": "Unauthorized"}, status=403)
 
-            try:
-                report_month = get_report_month(month_code)
-            except ReportingMonth.DoesNotExist:
-                return Response({"error": "Invalid month code"}, status=400)
-
-        data = get_managers_data(report_month, manager_id=manager_id)
         serializer = ManagerDashboardSerializer(data, many=True)
         return Response(serializer.data)
 
