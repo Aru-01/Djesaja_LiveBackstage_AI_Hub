@@ -419,69 +419,51 @@ class AlertsView(APIView):
         current_month = get_current_month()
         data = []
 
-        # 🔹 SUPER_ADMIN → all manager alerts
-        if user.role == "SUPER_ADMIN":
+        # Helper to fetch alerts for a list of users
+        def fetch_alerts(users, role_name):
+            alerts_list = []
+            for u in users:
+                alerts = AIDailySummary.objects.filter(
+                    user=u, report_month=current_month
+                ).order_by("-updated_at")
+                for a in alerts:
+                    alerts_list.append(
+                        {
+                            "user_id": u.id,
+                            "username": u.username,
+                            "role": role_name,
+                            "alert_type": a.alert_type,
+                            "priority": a.priority,
+                            "alert_message": a.alert_message,
+                            "updated_at": format_datetime(a.updated_at),
+                        }
+                    )
+            return alerts_list
+
+        # ---------------- ADMIN / SUPER_ADMIN ----------------
+        if user.role in ["ADMIN", "SUPER_ADMIN"]:
+            # own alerts
+            data.extend(fetch_alerts([user], user.role))
+            # all manager alerts
             managers = User.objects.filter(role="MANAGER")
-            for m in managers:
-                alerts = AIDailySummary.objects.filter(
-                    user=m, report_month=current_month
-                ).order_by("-updated_at")
+            data.extend(fetch_alerts(managers, "MANAGER"))
 
-                for a in alerts:
-                    data.append(
-                        {
-                            "user_id": m.id,
-                            "username": m.username,
-                            "role": "MANAGER",
-                            "alert_type": a.alert_type,
-                            "priority": a.priority,
-                            "alert_message": a.alert_message,
-                            "updated_at": format_datetime(a.updated_at),
-                        }
-                    )
-
-        # 🔹 MANAGER → all creator alerts under him
+        # ---------------- MANAGER ----------------
         elif user.role == "MANAGER":
-            creators = Creator.objects.filter(
-                manager__user=user, report_month=current_month
-            ).select_related("user")
-
-            for c in creators:
-                alerts = AIDailySummary.objects.filter(
-                    user=c.user, report_month=current_month
-                ).order_by("-updated_at")
-
-                for a in alerts:
-                    data.append(
-                        {
-                            "user_id": c.user.id,
-                            "username": c.user.username,
-                            "role": "CREATOR",
-                            "alert_type": a.alert_type,
-                            "priority": a.priority,
-                            "alert_message": a.alert_message,
-                            "updated_at": format_datetime(a.updated_at),
-                        }
-                    )
-
-        # 🔹 CREATOR → only his own alerts
-        elif user.role == "CREATOR":
-            alerts = AIDailySummary.objects.filter(
-                user=user, report_month=current_month
-            ).order_by("-updated_at")
-
-            for a in alerts:
-                data.append(
-                    {
-                        "user_id": user.id,
-                        "username": user.username,
-                        "role": "CREATOR",
-                        "alert_type": a.alert_type,
-                        "priority": a.priority,
-                        "alert_message": a.alert_message,
-                        "updated_at": format_datetime(a.updated_at),
-                    }
+            # own alerts
+            data.extend(fetch_alerts([user], "MANAGER"))
+            # all creator alerts under this manager
+            creators = [
+                c.user
+                for c in Creator.objects.filter(
+                    manager__user=user, report_month=current_month
                 )
+            ]
+            data.extend(fetch_alerts(creators, "CREATOR"))
+
+        # ---------------- CREATOR ----------------
+        elif user.role == "CREATOR":
+            data.extend(fetch_alerts([user], "CREATOR"))
 
         else:
             return Response({"detail": "Permission denied"}, status=403)
