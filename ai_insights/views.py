@@ -16,6 +16,7 @@ from creators.models import Creator
 from datetime import datetime, timedelta
 from api.models import ReportingMonth
 from api.permissions import IsAdmin, IsCreator, IsManager
+from django.utils.timezone import localtime
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -37,6 +38,27 @@ def normalize_actions(actions):
     if isinstance(actions, list):
         return actions
     return [actions]
+
+
+def format_datetime(dt, time_format_24=True):
+    """
+    Convert a datetime to dict with 'date' and 'time'.
+
+    dt: datetime object
+    time_format_24: True -> 24-hour format, False -> 12-hour with AM/PM
+    """
+    if not dt:
+        return {"date": None, "time": None}
+
+    local_dt = localtime(dt)
+    date_str = local_dt.strftime("%Y-%m-%d")
+
+    if time_format_24:
+        time_str = local_dt.strftime("%H:%M:%S")
+    else:
+        time_str = local_dt.strftime("%I:%M %p")
+
+    return {"date": date_str, "time": time_str}
 
 
 def get_common_ai_data(user, report_month):
@@ -69,6 +91,7 @@ def get_common_ai_data(user, report_month):
             "alert_message": summary.alert_message if summary else None,
             "priority": summary.priority if summary else None,
             "status": summary.status if summary else None,
+            "updated_at": format_datetime(summary.updated_at),
         },
         "scenarios": scenario.data if scenario else {},
         "metrics": metric.data if metric else {},
@@ -281,6 +304,7 @@ class AdminDailySummaryOverview(APIView):
                             "alert_message": s.alert_message,
                             "priority": s.priority,
                             "status": s.status,
+                            "updated_at": format_datetime(s.updated_at),
                         },
                     }
                 )
@@ -348,10 +372,118 @@ class ManagerCreatorsDailySummaryView(APIView):
                         "reason": s.reason,
                         "suggested_action": normalize_actions(s.suggested_actions),
                         "alert_type": s.alert_type,
+                        "alert_message": s.alert_message,
                         "priority": s.priority,
                         "status": s.status,
+                        "updated_at": format_datetime(s.updated_at),
                     },
                 }
             )
+
+        return Response(data)
+
+
+class AlertsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="Get Alerts",
+        operation_description=(
+            "Role-based alerts view:\n"
+            "- **ADMIN / SUPER_ADMIN**: See all alerts from all managers.\n"
+            "- **MANAGER**: See all alerts from all their creators.\n\n"
+            "Each alert includes type, priority, message, user info, and last updated datetime."
+        ),
+        tags=["Alerts"],
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "user_id": openapi.Schema(type=openapi.TYPE_INTEGER),
+                        "username": openapi.Schema(type=openapi.TYPE_STRING),
+                        "role": openapi.Schema(type=openapi.TYPE_STRING),
+                        "alert_type": openapi.Schema(type=openapi.TYPE_STRING),
+                        "priority": openapi.Schema(type=openapi.TYPE_STRING),
+                        "alert_message": openapi.Schema(type=openapi.TYPE_STRING),
+                        "updated_at": openapi.Schema(type=openapi.FORMAT_DATETIME),
+                    },
+                ),
+            ),
+            403: "Permission denied",
+        },
+    )
+    def get(self, request):
+        user = request.user
+        current_month = get_current_month()
+        data = []
+
+        # 🔹 SUPER_ADMIN → all manager alerts
+        if user.role == "SUPER_ADMIN":
+            managers = User.objects.filter(role="MANAGER")
+            for m in managers:
+                alerts = AIDailySummary.objects.filter(
+                    user=m, report_month=current_month
+                ).order_by("-updated_at")
+
+                for a in alerts:
+                    data.append(
+                        {
+                            "user_id": m.id,
+                            "username": m.username,
+                            "role": "MANAGER",
+                            "alert_type": a.alert_type,
+                            "priority": a.priority,
+                            "alert_message": a.alert_message,
+                            "updated_at": format_datetime(a.updated_at),
+                        }
+                    )
+
+        # 🔹 MANAGER → all creator alerts under him
+        elif user.role == "MANAGER":
+            creators = Creator.objects.filter(
+                manager__user=user, report_month=current_month
+            ).select_related("user")
+
+            for c in creators:
+                alerts = AIDailySummary.objects.filter(
+                    user=c.user, report_month=current_month
+                ).order_by("-updated_at")
+
+                for a in alerts:
+                    data.append(
+                        {
+                            "user_id": c.user.id,
+                            "username": c.user.username,
+                            "role": "CREATOR",
+                            "alert_type": a.alert_type,
+                            "priority": a.priority,
+                            "alert_message": a.alert_message,
+                            "updated_at": format_datetime(a.updated_at),
+                        }
+                    )
+
+        # 🔹 CREATOR → only his own alerts
+        elif user.role == "CREATOR":
+            alerts = AIDailySummary.objects.filter(
+                user=user, report_month=current_month
+            ).order_by("-updated_at")
+
+            for a in alerts:
+                data.append(
+                    {
+                        "user_id": user.id,
+                        "username": user.username,
+                        "role": "CREATOR",
+                        "alert_type": a.alert_type,
+                        "priority": a.priority,
+                        "alert_message": a.alert_message,
+                        "updated_at": format_datetime(a.updated_at),
+                    }
+                )
+
+        else:
+            return Response({"detail": "Permission denied"}, status=403)
 
         return Response(data)
