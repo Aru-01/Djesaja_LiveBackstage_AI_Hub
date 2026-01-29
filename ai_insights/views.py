@@ -66,6 +66,7 @@ def get_common_ai_data(user, report_month):
                 normalize_actions(summary.suggested_actions) if summary else []
             ),
             "alert_type": summary.alert_type if summary else None,
+            "alert_message": summary.alert_message if summary else None,
             "priority": summary.priority if summary else None,
             "status": summary.status if summary else None,
         },
@@ -262,26 +263,27 @@ class AdminDailySummaryOverview(APIView):
         for s in summaries:
             manager_username = None
 
-            if s.user.role == "CREATOR":
-                creator = creators_map.get(s.user.id)
-                if creator and creator.manager:
-                    manager_username = creator.manager.user.username
+            if s.user.role == "MANAGER":
+                # creator = creators_map.get(s.user.id)
+                # if creator and creator.manager:
+                #     manager_username = creator.manager.user.username
 
-            data.append(
-                {
-                    "username": s.user.username,
-                    "role": s.user.role,
-                    "manager_username": manager_username,
-                    "daily_summary": {
-                        "summary": s.summary,
-                        "reason": s.reason,
-                        "suggested_action": normalize_actions(s.suggested_actions),
-                        "alert_type": s.alert_type,
-                        "priority": s.priority,
-                        "status": s.status,
-                    },
-                }
-            )
+                data.append(
+                    {
+                        "username": s.user.username,
+                        "role": s.user.role,
+                        # "manager_username": manager_username,
+                        "daily_summary": {
+                            "summary": s.summary,
+                            "reason": s.reason,
+                            "suggested_action": normalize_actions(s.suggested_actions),
+                            "alert_type": s.alert_type,
+                            "alert_message": s.alert_message,
+                            "priority": s.priority,
+                            "status": s.status,
+                        },
+                    }
+                )
 
         return Response(data)
 

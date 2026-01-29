@@ -64,6 +64,7 @@ class AIDailySummary(models.Model):
     reason = models.TextField(blank=True, null=True)
     suggested_actions = models.JSONField(default=list, blank=True, null=True)
     alert_type = models.CharField(max_length=50, blank=True, null=True)
+    alert_message = models.CharField(max_length=50, blank=True, null=True)
     priority = models.CharField(max_length=10, blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=True)
 
