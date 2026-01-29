@@ -13,13 +13,7 @@ from accounts.serializers import (
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
-from accounts.utils import (
-    send_otp_email,
-    generate_otp,
-    set_otp_cache,
-    get_otp_cache,
-    delete_otp_cache,
-)
+from accounts.utils import create_otp, can_resend_otp, send_otp_email, verify_otp
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -50,9 +44,6 @@ class SelfProfileView(generics.RetrieveAPIView):
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
-    def get_object(self):
-        return self.request.user
 
     def get_object(self):
         return self.request.user
@@ -103,17 +94,22 @@ class SendEmailOtpView(APIView):
 
         if not email:
             return Response({"detail": "Email required"}, status=400)
+
         if user.email_verified:
             return Response({"detail": "Email already verified"}, status=400)
 
-        # Save email temporarily
+        if not can_resend_otp(user, "verify_email"):
+            return Response(
+                {"detail": "Please wait 30 seconds before resending OTP"},
+                status=400,
+            )
+
         user.email = email
         user.email_verified = False
         user.save()
 
-        otp = generate_otp()
-        set_otp_cache(user.id, otp)
-        send_otp_email(email, otp, "verify_email")
+        otp_obj = create_otp(user, "verify_email")
+        send_otp_email(email, otp_obj.code, "verify_email")
 
         return Response({"detail": "OTP sent to email"}, status=200)
 
@@ -139,16 +135,14 @@ class VerifyEmailOtpView(APIView):
     def post(self, request):
         user = request.user
         otp = request.data.get("otp")
-        cached_otp = get_otp_cache(user.id)
 
-        if not cached_otp:
-            return Response({"detail": "OTP expired"}, status=400)
-        if otp != cached_otp:
-            return Response({"detail": "Invalid OTP"}, status=400)
+        is_valid, message = verify_otp(user, otp, "verify_email")
+
+        if not is_valid:
+            return Response({"detail": message}, status=400)
 
         user.email_verified = True
         user.save()
-        delete_otp_cache(user.id)
 
         return Response({"detail": "Email verified successfully"}, status=200)
 
@@ -210,8 +204,7 @@ class VerifyOtpView(APIView):
     def post(self, request):
         serializer = VerifyOtpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"message": "OTP verified"}, status=status.HTTP_200_OK)
+        return Response({"message": "OTP verified"}, status=200)
 
 
 class ResetPasswordView(APIView):

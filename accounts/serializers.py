@@ -1,13 +1,11 @@
-from django.core.cache import cache
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from accounts.models import User
+from accounts.models import User, OTP
 from accounts.utils import (
-    generate_otp,
-    set_otp_cache,
     send_otp_email,
-    get_otp_cache,
-    delete_otp_cache,
+    create_otp,
+    verify_otp,
+    can_resend_otp,
 )
 
 
@@ -15,7 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id",
             "username",
             "name",
             "email",
@@ -97,11 +94,15 @@ class ForgotPasswordSerializer(serializers.Serializer):
         return value
 
     def save(self):
-        email = self.validated_data["email"]
-        user = User.objects.get(email=email)
-        otp = generate_otp()
-        set_otp_cache(f"forgot_{user.id}", otp)
-        send_otp_email(email, otp, "forgot_password")
+        user = User.objects.get(email=self.validated_data["email"])
+
+        if not can_resend_otp(user, "forgot_password"):
+            raise serializers.ValidationError(
+                "Please wait 30 seconds before resending OTP"
+            )
+
+        otp_obj = create_otp(user, "forgot_password")
+        send_otp_email(user.email, otp_obj.code, "forgot_password")
 
 
 class VerifyOtpSerializer(serializers.Serializer):
@@ -110,38 +111,31 @@ class VerifyOtpSerializer(serializers.Serializer):
 
     def validate(self, data):
         user = User.objects.get(email=data["email"])
-        cached_otp = get_otp_cache(f"forgot_{user.id}")
-        if not cached_otp:
-            raise serializers.ValidationError("OTP expired")
-        if cached_otp != data["otp"]:
-            raise serializers.ValidationError("Invalid OTP")
+        is_valid, message = verify_otp(user, data["otp"], "forgot_password")
+        if not is_valid:
+            raise serializers.ValidationError(message)
         return data
-
-    def save(self):
-        user = User.objects.get(email=self.validated_data["email"])
-        cache.set(f"forgot_verified_{user.id}", True, timeout=600)
-        delete_otp_cache(f"forgot_{user.id}")
 
 
 class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    new_password = serializers.CharField(write_only=True, min_length=8)
-    confirm_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(min_length=8)
+    confirm_password = serializers.CharField()
 
     def validate(self, data):
         if data["new_password"] != data["confirm_password"]:
             raise serializers.ValidationError("Passwords do not match")
+
         user = User.objects.get(email=data["email"])
-        verified = cache.get(f"forgot_verified_{user.id}")
-        if not verified:
-            raise serializers.ValidationError("OTP not verified or expired")
+        if OTP.objects.filter(user=user, purpose="forgot_password").exists():
+            raise serializers.ValidationError("OTP not verified")
+
         return data
 
     def save(self):
         user = User.objects.get(email=self.validated_data["email"])
         user.set_password(self.validated_data["new_password"])
         user.save()
-        cache.delete(f"forgot_verified_{user.id}")
         return user
 
 
@@ -159,18 +153,10 @@ class ResendOtpSerializer(serializers.Serializer):
         purpose = self.validated_data["purpose"]
         user = User.objects.get(email=email)
 
-        cooldown_key = f"{purpose}_resend_{user.id}"
-        if cache.get(cooldown_key):
+        if not can_resend_otp(user, purpose):
             raise serializers.ValidationError(
-                "OTP recently sent. Wait 30s before resending."
+                "Please wait 30 seconds before resending OTP"
             )
 
-        otp = generate_otp()
-
-        if purpose == "forgot_password":
-            set_otp_cache(f"forgot_{user.id}", otp)
-        else:
-            set_otp_cache(user.id, otp)
-
-        send_otp_email(email, otp, purpose)
-        cache.set(cooldown_key, True, timeout=30)
+        otp_obj = create_otp(user, purpose)
+        send_otp_email(email, otp_obj.code, purpose)

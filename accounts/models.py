@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from accounts.custom_managers import CustomUserManager
+from django.utils import timezone
+from datetime import timedelta
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -33,3 +35,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class OTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
+    purpose = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        return timezone.now() > self.created_at + timedelta(minutes=5)

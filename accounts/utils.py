@@ -1,27 +1,47 @@
-from django.core.cache import cache
+from accounts.models import OTP
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.utils import timezone
+from datetime import timedelta
 import random
-
-OTP_TIMEOUT = 300
 
 
 def generate_otp():
-    """Generate 6-digit numeric OTP"""
     return str(random.randint(100000, 999999))
 
 
-def set_otp_cache(user_id, otp):
-    """Store OTP in cache"""
-    cache.set(f"otp_{user_id}", otp, timeout=OTP_TIMEOUT)
+def can_resend_otp(user, purpose):
+    last_otp = (
+        OTP.objects.filter(user=user, purpose=purpose).order_by("-created_at").first()
+    )
+    if not last_otp:
+        return True
+
+    return timezone.now() > last_otp.created_at + timedelta(seconds=30)
 
 
-def get_otp_cache(user_id):
-    return cache.get(f"otp_{user_id}")
+def create_otp(user, purpose):
+    OTP.objects.filter(user=user, purpose=purpose).delete()
+
+    return OTP.objects.create(
+        user=user,
+        code=generate_otp(),
+        purpose=purpose,
+    )
 
 
-def delete_otp_cache(user_id):
-    cache.delete(f"otp_{user_id}")
+def verify_otp(user, otp, purpose):
+    otp_obj = OTP.objects.filter(user=user, code=otp, purpose=purpose).first()
+
+    if not otp_obj:
+        return False, "Invalid OTP"
+
+    if otp_obj.is_expired():
+        otp_obj.delete()
+        return False, "OTP expired"
+
+    otp_obj.delete()
+    return True, "OTP verified"
 
 
 EMAIL_SUBJECTS = {
