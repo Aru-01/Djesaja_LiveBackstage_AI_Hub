@@ -102,17 +102,23 @@ def get_managers_data(report_month, manager_id=None):
 def get_creators_data(report_month, creator_id=None, manager_id=None):
     prev_month = get_prev_month_of(report_month)
 
-    qs = (
-        Creator.objects.filter(report_month=report_month)
-        .select_related("user", "manager__user")
-        .order_by("-diamonds")
-        .annotate(rank=Window(expression=RowNumber(), order_by=F("diamonds").desc()))
-    )
+    qs = Creator.objects.filter(
+        report_month=report_month, manager_id=manager_id  # 🔥 manager wise filter
+    ).select_related("user", "manager__user")
+
+    # 🔥 manager-wise ranking
+    qs = qs.annotate(
+        rank=Window(
+            expression=RowNumber(),
+            partition_by=[F("manager_id")],
+            order_by=F("diamonds").desc(),
+        )
+    ).order_by("-diamonds")
 
     creator_list = []
+
     for c in qs:
         target_diamonds = 0
-
         if prev_month:
             target = AITarget.objects.filter(
                 user=c.user, report_month=prev_month
@@ -136,9 +142,6 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
 
     if creator_id:
         creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
-
-    if manager_id:
-        creator_list = [c for c in creator_list if c["manager_id"] == int(manager_id)]
 
     return creator_list
 

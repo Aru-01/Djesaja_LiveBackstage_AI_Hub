@@ -12,6 +12,7 @@ from dashboard.serializers import (
     ManagerDashboardSerializer,
     CreatorDashboardSerializer,
 )
+from api.permissions import IsAdmin, IsCreator, IsManager
 from api.models import ReportingMonth
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -28,6 +29,8 @@ class AdminDashboardView(APIView):
     Admin dashboard
     Optional query param: month=YYYYMM
     """
+
+    permission_classes = [IsAdmin]
 
     @swagger_auto_schema(
         operation_summary="Admin Dashboard Overview",
@@ -47,9 +50,6 @@ class AdminDashboardView(APIView):
             400: "Invalid month code",
         },
     )
-
-    # permission_classes = [IsAuthenticated]  # Optional, can comment
-
     def get(self, request):
         month_code = request.GET.get("month")
         try:
@@ -63,6 +63,8 @@ class AdminDashboardView(APIView):
 
 
 class ManagerDashboardView(APIView):
+    permission_classes = [IsManager]
+
     @swagger_auto_schema(
         operation_summary="Manager Dashboard",
         tags=["Dashboards"],
@@ -121,81 +123,68 @@ class ManagerDashboardView(APIView):
 
 
 class CreatorDashboardView(APIView):
-    """
-    - Logged-in creator → own dashboard (latest month)
-    - Logged-in manager → own creators dashboard (latest month)
-    - Admin / public → all or single creator (month optional)
-    """
-
     @swagger_auto_schema(
-        operation_summary="Creator Dashboard",
+        operation_summary="Creator Dashboard (Role Based)",
         tags=["Dashboards"],
         manual_parameters=[
+            openapi.Parameter(
+                name="manager_id",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description="Required for Admin, ignored for Manager",
+            ),
             openapi.Parameter(
                 name="month",
                 in_=openapi.IN_QUERY,
                 type=openapi.TYPE_STRING,
                 required=False,
-                description="Report month (Admin / Public only) - YYYYMM",
-                example="202601",
-            ),
-            openapi.Parameter(
-                name="creator_id",
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_INTEGER,
-                required=False,
-                description="Creator ID (Admin / Public only)",
+                description="Report month YYYYMM",
             ),
         ],
-        responses={
-            200: CreatorDashboardSerializer(many=True),
-            400: "Invalid month code",
-            404: "Creator / Manager data not found",
-        },
     )
     def get(self, request):
+        month_code = request.GET.get("month")
 
-        # 🔐 Logged-in creator
+        try:
+            report_month = get_report_month(month_code)
+        except ReportingMonth.DoesNotExist:
+            return Response({"error": "Invalid month code"}, status=400)
+
         if request.user.is_authenticated and request.user.role == "CREATOR":
-            report_month = get_latest_report_month()
             creator = request.user.creator_profile.filter(
                 report_month=report_month
             ).first()
 
             if not creator:
-                return Response(
-                    {"error": "Creator data not found for this month"}, status=404
-                )
+                return Response({"error": "Creator data not found"}, status=404)
 
-            creator_id = creator.id
-            data = get_creators_data(report_month, creator_id=creator_id)
+            data = get_creators_data(
+                report_month, creator_id=creator.id, manager_id=creator.manager.id
+            )
 
-        # 🔐 Logged-in manager → only own creators
         elif request.user.is_authenticated and request.user.role == "MANAGER":
-            report_month = get_latest_report_month()
             manager = request.user.manager_profile.filter(
                 report_month=report_month
             ).first()
 
             if not manager:
-                return Response(
-                    {"error": "Manager data not found for this month"}, status=404
-                )
+                return Response({"error": "Manager data not found"}, status=404)
 
-            # manager_id passed to utils to get all creators under this manager
             data = get_creators_data(report_month, manager_id=manager.id)
 
-        # 🌐 Admin / public
+        elif request.user.is_authenticated and request.user.role == "SUPER_ADMIN":
+            manager_id = request.GET.get("manager_id")
+
+            if not manager_id:
+                return Response(
+                    {"error": "manager_id query param is required"}, status=400
+                )
+
+            data = get_creators_data(report_month, manager_id=manager_id)
+
         else:
-            month_code = request.GET.get("month")
-            creator_id = request.GET.get("creator_id")
-
-            try:
-                report_month = get_report_month(month_code)
-            except ReportingMonth.DoesNotExist:
-                return Response({"error": "Invalid month code"}, status=400)
-
-            data = get_creators_data(report_month, creator_id=creator_id)
+            return Response({"error": "Unauthorized"}, status=403)
 
         serializer = CreatorDashboardSerializer(data, many=True)
         return Response(serializer.data)
