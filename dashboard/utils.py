@@ -36,6 +36,25 @@ def get_report_month(month_code=None):
     return ReportingMonth.objects.get(code=month_code)
 
 
+def get_prev_n_months_codes(report_month, n=3):
+    """
+    Return last n months codes (YYYYMM) from report_month, always n items
+    Missing months not in DB still included as YYYYMM
+    """
+    months = []
+    month_code_int = int(report_month.code)  # 🔥 convert string to int
+    year = month_code_int // 100
+    month = month_code_int % 100
+
+    for _ in range(n):
+        months.append(f"{year}{month:02d}")
+        month -= 1
+        if month == 0:
+            month = 12
+            year -= 1
+    return months
+
+
 User = get_user_model()
 
 
@@ -126,6 +145,18 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
             if target:
                 target_diamonds = target.target_diamonds or 0
 
+        last_months_codes = get_prev_n_months_codes(report_month, n=3)
+        last_3_diamonds = []
+
+        for m_code in last_months_codes:
+            creator_obj = Creator.objects.filter(
+                user=c.user, report_month__code=m_code
+            ).first()
+            if creator_obj:
+                last_3_diamonds.append(creator_obj.diamonds)
+            else:
+                last_3_diamonds.append(0)
+
         creator_list.append(
             {
                 "id": c.id,
@@ -137,6 +168,7 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
                 "total_diamond": c.diamonds,
                 "rank": c.rank,
                 "target_diamonds": target_diamonds,
+                "last_3_months_diamonds": last_3_diamonds,
             }
         )
 
