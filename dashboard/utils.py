@@ -7,6 +7,7 @@ from creators.models import Creator
 from managers.models import Manager
 from api.models import ReportingMonth
 from ai_insights.models import AITarget, AIManagerTarget
+from ai_insights.utils import get_alert_counts
 import calendar
 
 
@@ -69,11 +70,14 @@ def build_last_3_months_stats(stats_lookup, entity_id, last_months_codes):
     data = {}
     for code in last_months_codes:
         month_name = month_code_to_name(code)
+
+        hours = stats_lookup.get(entity_id, {}).get(code, {}).get("hours", 0)
+
         data[month_name] = {
-            "diamonds": stats_lookup.get(entity_id, {})
-            .get(code, {})
-            .get("diamonds", 0),
-            "hours": stats_lookup.get(entity_id, {}).get(code, {}).get("hours", 0),
+            "diamonds": (
+                stats_lookup.get(entity_id, {}).get(code, {}).get("diamonds", 0)
+            ),
+            "hours": round(hours, 2),
         }
     return data
 
@@ -143,6 +147,13 @@ def get_managers_data(report_month, manager_id=None):
         last_3_months = build_last_3_months_stats(stats_lookup, m.id, last_months_codes)
 
         target_diamonds = targets_lookup.get(m.user.id, 0)
+        # --- Add alert counts ---
+        creators_qs = User.objects.filter(
+            creator_profile__manager=m, creator_profile__report_month=report_month
+        )
+        alert_counts = get_alert_counts(creators_qs, report_month)
+        at_risk = alert_counts.get("high", 0)
+        excellent = alert_counts.get("low", 0)
         manager_list.append(
             {
                 "id": m.id,
@@ -154,6 +165,8 @@ def get_managers_data(report_month, manager_id=None):
                 "total_diamond": m.total_diamond or 0,
                 "target_diamonds": target_diamonds,
                 "last_3_months": last_3_months,
+                "at_risk": at_risk,
+                "excellent": excellent,
             }
         )
 

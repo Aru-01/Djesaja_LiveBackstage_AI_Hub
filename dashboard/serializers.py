@@ -15,6 +15,8 @@ class ManagerDashboardSerializer(serializers.Serializer):
     username = serializers.CharField()
     my_creators = serializers.IntegerField()
     rank = serializers.IntegerField()
+    at_risk = serializers.IntegerField()
+    excellent = serializers.IntegerField()
     last_3_months = serializers.DictField()
     total_coin = serializers.DecimalField(max_digits=10, decimal_places=2)
     total_hour = serializers.DecimalField(max_digits=10, decimal_places=2)

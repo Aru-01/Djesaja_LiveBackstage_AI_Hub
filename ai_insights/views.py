@@ -1,101 +1,25 @@
-from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from accounts.models import User
+from creators.models import Creator
+from api.permissions import IsAdmin, IsManager
+from collections import defaultdict
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from ai_insights.models import (
     AITarget,
     AIManagerTarget,
-    AIMessage,
     AIDailySummary,
-    AIScenario,
-    AIMetric,
 )
-from api.models import ReportingMonth
-from creators.models import Creator
-from datetime import datetime, timedelta
-from api.models import ReportingMonth
-from api.permissions import IsAdmin, IsCreator, IsManager
-from django.utils.timezone import localtime
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-
-
-def get_current_month():
-    code = datetime.now().strftime("%Y%m")
-    return ReportingMonth.objects.get(code=code)
-
-
-def get_previous_month():
-    first_day = datetime.now().replace(day=1)
-    prev_month = first_day - timedelta(days=1)
-    return ReportingMonth.objects.get(code=prev_month.strftime("%Y%m"))
-
-
-def normalize_actions(actions):
-    if not actions:
-        return []
-    if isinstance(actions, list):
-        return actions
-    return [actions]
-
-
-def format_datetime(dt, time_format_24=True):
-    """
-    Convert a datetime to dict with 'date' and 'time'.
-
-    dt: datetime object
-    time_format_24: True -> 24-hour format, False -> 12-hour with AM/PM
-    """
-    if not dt:
-        return {"date": None, "time": None}
-
-    local_dt = localtime(dt)
-    date_str = local_dt.strftime("%Y-%m-%d")
-
-    if time_format_24:
-        time_str = local_dt.strftime("%H:%M:%S")
-    else:
-        time_str = local_dt.strftime("%I:%M %p")
-
-    return {"date": date_str, "time": time_str}
-
-
-def get_common_ai_data(user, report_month):
-    msg = (
-        AIMessage.objects.filter(user=user, expires_at__gte=timezone.now())
-        .order_by("-created_at")
-        .first()
-    )
-
-    summary = AIDailySummary.objects.filter(
-        user=user, report_month=report_month
-    ).first()
-
-    scenario = AIScenario.objects.filter(user=user, report_month=report_month).first()
-
-    metric = AIMetric.objects.filter(user=user, report_month=report_month).first()
-
-    return {
-        "welcome_msg": {
-            "msg_type": msg.message_type if msg else None,
-            "msg": msg.message if msg else None,
-        },
-        "daily_summary": {
-            "summary": summary.summary if summary else None,
-            "reason": summary.reason if summary else None,
-            "suggested_action": (
-                normalize_actions(summary.suggested_actions) if summary else []
-            ),
-            "alert_type": summary.alert_type if summary else None,
-            "alert_message": summary.alert_message if summary else None,
-            "priority": summary.priority if summary else None,
-            "status": summary.status if summary else None,
-            "updated_at": format_datetime(summary.updated_at),
-        },
-        "scenarios": scenario.data if scenario else {},
-        "metrics": metric.data if metric else {},
-    }
+from ai_insights.utils import (
+    get_current_month,
+    get_previous_month,
+    normalize_actions,
+    format_datetime,
+    get_common_ai_data,
+    get_alert_counts,
+)
 
 
 class AIResponseView(APIView):
@@ -421,12 +345,18 @@ class AlertsView(APIView):
 
         # Helper to fetch alerts for a list of users
         def fetch_alerts(users, role_name):
+            user_ids = [u.id for u in users]
+            alerts_qs = AIDailySummary.objects.filter(
+                user__in=user_ids, report_month=current_month
+            ).order_by("-updated_at")
+
+            alerts_by_user = defaultdict(list)
+            for a in alerts_qs:
+                alerts_by_user[a.user_id].append(a)
+
             alerts_list = []
             for u in users:
-                alerts = AIDailySummary.objects.filter(
-                    user=u, report_month=current_month
-                ).order_by("-updated_at")
-                for a in alerts:
+                for a in alerts_by_user.get(u.id, []):
                     alerts_list.append(
                         {
                             "user_id": u.id,
@@ -447,25 +377,29 @@ class AlertsView(APIView):
             # all manager alerts
             managers = User.objects.filter(role="MANAGER")
             data.extend(fetch_alerts(managers, "MANAGER"))
+            users_for_counter = list(managers) + [user]
 
         # ---------------- MANAGER ----------------
         elif user.role == "MANAGER":
             # own alerts
             data.extend(fetch_alerts([user], "MANAGER"))
             # all creator alerts under this manager
-            creators = [
-                c.user
-                for c in Creator.objects.filter(
-                    manager__user=user, report_month=current_month
-                )
-            ]
-            data.extend(fetch_alerts(creators, "CREATOR"))
+            creators_qs = User.objects.filter(
+                creator_profile__manager__user=user,
+                creator_profile__report_month=current_month,
+            ).distinct()
+
+            data.extend(fetch_alerts(creators_qs, "CREATOR"))
+            users_for_counter = list(creators_qs) + [user]
 
         # ---------------- CREATOR ----------------
         elif user.role == "CREATOR":
             data.extend(fetch_alerts([user], "CREATOR"))
+            users_for_counter = [user]
 
         else:
             return Response({"detail": "Permission denied"}, status=403)
 
-        return Response(data)
+        alert_counts = get_alert_counts(users_for_counter, current_month)
+
+        return Response({"alert_counts": alert_counts, "alerts": data})
