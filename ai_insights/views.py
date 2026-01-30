@@ -1,3 +1,5 @@
+from django.utils import timezone
+from datetime import timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,11 +9,7 @@ from api.permissions import IsAdmin, IsManager
 from collections import defaultdict
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from ai_insights.models import (
-    AITarget,
-    AIManagerTarget,
-    AIDailySummary,
-)
+from ai_insights.models import AITarget, AIManagerTarget, AIDailySummary, AIMessage
 from ai_insights.utils import (
     get_current_month,
     get_previous_month,
@@ -400,6 +398,81 @@ class AlertsView(APIView):
         else:
             return Response({"detail": "Permission denied"}, status=403)
 
-        alert_counts = get_alert_counts(users_for_counter, current_month)
+        push_msgs_qs = (
+            AIMessage.objects.filter(
+                user__in=[u.id for u in users_for_counter],
+                expires_at__gte=timezone.now(),
+            )
+            .select_related("user")
+            .order_by("-created_at")
+        )
 
+        for msg in push_msgs_qs:
+            data.append(
+                {
+                    "user_id": msg.user.id,
+                    "username": msg.user.username,
+                    "role": msg.user.role,
+                    "alert_type": msg.message_type,
+                    "priority": "high",
+                    "alert_message": msg.message,
+                    "updated_at": format_datetime(msg.created_at),
+                }
+            )
+
+        alert_counts = get_alert_counts(users_for_counter, current_month)
         return Response({"alert_counts": alert_counts, "alerts": data})
+
+    @swagger_auto_schema(
+        operation_summary="Send push notification to a user",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "user_id": openapi.Schema(type=openapi.TYPE_INTEGER),
+                "message": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=["user_id", "message"],
+        ),
+        responses={
+            200: "Notification sent",
+            400: "Invalid request",
+            403: "Permission denied",
+            404: "User not found",
+        },
+        tags=["Alerts"],
+    )
+    def post(self, request):
+        sender = request.user
+        user_id = request.data.get("user_id")
+        message = request.data.get("message", "")
+
+        if not user_id or not message:
+            return Response({"detail": "user_id and message are required"}, status=400)
+
+        try:
+            recipient = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=404)
+
+        # Check permission
+        if sender.role in ["ADMIN", "SUPER_ADMIN"] and recipient.role != "MANAGER":
+            return Response({"detail": "Permission denied"}, status=403)
+        if sender.role == "MANAGER":
+            allowed_creators = User.objects.filter(
+                creator_profile__manager__user=sender,
+                creator_profile__report_month=get_current_month(),
+            ).distinct()
+            if recipient not in allowed_creators:
+                return Response({"detail": "Permission denied"}, status=403)
+        if sender.role == "CREATOR":
+            return Response({"detail": "Permission denied"}, status=403)
+
+        # Store the push as an alert/message
+        AIMessage.objects.create(
+            user=recipient,
+            message_type="PUSH_NOTIFICATION",
+            message=message,
+            expires_at=timezone.now() + timedelta(days=7),  # optional expiry
+        )
+
+        return Response({"detail": f"Notification sent to {recipient.username}"})
