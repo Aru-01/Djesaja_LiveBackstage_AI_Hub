@@ -5,8 +5,8 @@ from dashboard.utils import (
     admin_dashboard_data,
     get_creators_data,
     get_managers_data,
-    get_report_month,
 )
+from dashboard.helpers import get_report_month
 from dashboard.serializers import (
     AdminDashboardSerializer,
     ManagerDashboardSerializer,

@@ -1,85 +1,15 @@
-# dashboard/utils.py
-from django.db.models import Sum, Count, F, Window, Q
+from django.db.models import Sum, Count, F, Window, Q, Case, When, IntegerField
 from django.db.models.functions import RowNumber
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from creators.models import Creator
 from managers.models import Manager
-from api.models import ReportingMonth
 from ai_insights.models import AITarget, AIManagerTarget
-from ai_insights.utils import get_alert_counts
-import calendar
-
-
-def get_prev_month_of(report_month):
-    """
-    Return previous ReportingMonth object before the given report_month
-    If none exists, return None
-    """
-    prev_month = (
-        ReportingMonth.objects.filter(code__lt=report_month.code)
-        .order_by("-code")
-        .first()
-    )
-    return prev_month
-
-
-def get_report_month(month_code=None):
-    """
-    Priority:
-    1. If month_code provided → use it
-    2. Else → use current month YYYYMM
-    """
-
-    if not month_code:
-        now = timezone.now()
-        month_code = f"{now.year}{now.month:02d}"
-
-    return ReportingMonth.objects.get(code=month_code)
-
-
-def get_prev_n_months_codes(report_month, n=3):
-    """
-    Return last n months codes (YYYYMM) from report_month, always n items
-    Missing months not in DB still included as YYYYMM
-    """
-    months = []
-    month_code_int = int(report_month.code)  # 🔥 convert string to int
-    year = month_code_int // 100
-    month = month_code_int % 100
-
-    for _ in range(n):
-        months.append(f"{year}{month:02d}")
-        month -= 1
-        if month == 0:
-            month = 12
-            year -= 1
-    return months
-
-
-def month_code_to_name(month_code):
-    """
-    YYYYMM -> Month name (January, February...)
-    """
-    year = int(month_code[:4])
-    month = int(month_code[4:])
-    return calendar.month_name[month]
-
-
-def build_last_3_months_stats(stats_lookup, entity_id, last_months_codes):
-    data = {}
-    for code in last_months_codes:
-        month_name = month_code_to_name(code)
-
-        hours = stats_lookup.get(entity_id, {}).get(code, {}).get("hours", 0)
-
-        data[month_name] = {
-            "diamonds": (
-                stats_lookup.get(entity_id, {}).get(code, {}).get("diamonds", 0)
-            ),
-            "hours": round(hours, 2),
-        }
-    return data
+from dashboard.helpers import (
+    get_prev_month_of,
+    get_prev_n_months_codes,
+    build_last_3_months_stats,
+)
 
 
 User = get_user_model()
@@ -142,18 +72,39 @@ def get_managers_data(report_month, manager_id=None):
     )
     targets_lookup = {t.user_id: t.team_target_diamonds or 0 for t in targets_qs}
 
+    all_creators = Creator.objects.filter(
+        report_month=report_month, manager_id__in=manager_ids
+    ).select_related("user")
+
+    # Annotate alert counts per manager
+    alert_counts_qs = all_creators.values("manager_id").annotate(
+        at_risk=Count(
+            Case(
+                When(user__aidailysummary__priority__iexact="high", then=1),
+                output_field=IntegerField(),
+            )
+        ),
+        excellent=Count(
+            Case(
+                When(user__aidailysummary__priority__isnull=True, then=1),
+                output_field=IntegerField(),
+            )
+        ),
+    )
+
+    # Convert to dict for easy lookup
+    alerts_lookup = {
+        row["manager_id"]: {"at_risk": row["at_risk"], "excellent": row["excellent"]}
+        for row in alert_counts_qs
+    }
+
     manager_list = []
     for m in qs:
         last_3_months = build_last_3_months_stats(stats_lookup, m.id, last_months_codes)
 
         target_diamonds = targets_lookup.get(m.user.id, 0)
         # --- Add alert counts ---
-        creators_qs = User.objects.filter(
-            creator_profile__manager=m, creator_profile__report_month=report_month
-        )
-        alert_counts = get_alert_counts(creators_qs, report_month)
-        at_risk = alert_counts.get("high", 0)
-        excellent = alert_counts.get("low", 0)
+        alerts = alerts_lookup.get(m.id, {"at_risk": 0, "excellent": 0})
         manager_list.append(
             {
                 "id": m.id,
@@ -165,8 +116,8 @@ def get_managers_data(report_month, manager_id=None):
                 "total_diamond": m.total_diamond or 0,
                 "target_diamonds": target_diamonds,
                 "last_3_months": last_3_months,
-                "at_risk": at_risk,
-                "excellent": excellent,
+                "at_risk": alerts["at_risk"],
+                "excellent": alerts["excellent"],
             }
         )
 
