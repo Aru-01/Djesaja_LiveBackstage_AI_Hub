@@ -159,3 +159,4 @@ with open("fake_data.json", "r", encoding="utf-8") as f:
 
 # save_scrape_data(data, month_code=202512)
 save_scrape_data(data, month_code=current_month)
+

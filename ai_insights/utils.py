@@ -81,7 +81,7 @@ def get_common_ai_data(user, report_month):
             "alert_message": summary.alert_message if summary else None,
             "priority": summary.priority if summary else None,
             "status": summary.status if summary else None,
-            "updated_at": format_datetime(summary.updated_at),
+            "updated_at": format_datetime(summary.updated_at) if summary else None,
         },
         "scenarios": scenario.data if scenario else {},
         "metrics": metric.data if metric else {},

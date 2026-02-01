@@ -210,6 +210,35 @@ def admin_dashboard_data(report_month):
     scrape_today = qs.filter(created_at__date=today).count()
     total_managers = Manager.objects.filter(report_month=report_month).count()
 
+    prev_month = get_prev_month_of(report_month)
+
+    admin_target = (
+        AIManagerTarget.objects.filter(report_month=prev_month)
+        .aggregate(total_target=Sum("team_target_diamonds"))
+        .get("total_target")
+        or 0
+    )
+    last_months_codes = get_prev_n_months_codes(report_month, n=3)
+
+    stats_qs = (
+        Creator.objects.filter(report_month__code__in=last_months_codes)
+        .values("report_month__code")
+        .annotate(
+            total_diamonds=Sum("diamonds"),
+            total_hours=Sum("live_duration"),
+        )
+    )
+    stats_lookup = {}
+
+    for row in stats_qs:
+        stats_lookup[row["report_month__code"]] = {
+            "diamonds": row["total_diamonds"] or 0,
+            "hours": row["total_hours"] or 0,
+        }
+    admin_last_3_months = build_last_3_months_stats(
+        {"admin": stats_lookup}, "admin", last_months_codes
+    )
+
     return {
         "total_creators": agg["total_creators"] or 0,
         "total_managers": total_managers,
@@ -217,4 +246,6 @@ def admin_dashboard_data(report_month):
         "total_diamond_achieve": agg["total_diamond_achieve"] or 0,
         "total_coin": agg["total_coin"] or 0,
         "total_hour": agg["total_hour"] or 0,
+        "target_diamonds": admin_target,
+        "last_3_months": admin_last_3_months,
     }
