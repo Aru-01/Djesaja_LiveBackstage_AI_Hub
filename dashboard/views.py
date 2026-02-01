@@ -12,6 +12,7 @@ from dashboard.serializers import (
     ManagerDashboardSerializer,
     CreatorDashboardSerializer,
 )
+from creators.models import Creator
 from api.permissions import IsAdmin, IsCreator, IsManager
 from api.models import ReportingMonth
 from drf_yasg.utils import swagger_auto_schema
@@ -121,66 +122,148 @@ class ManagerDashboardView(APIView):
         return Response(serializer.data)
 
 
+# class CreatorDashboardView(APIView):
+#     @swagger_auto_schema(
+#         operation_summary="Creator Dashboard (Role Based)",
+#         tags=["Dashboards"],
+#         manual_parameters=[
+#             openapi.Parameter(
+#                 name="manager_id",
+#                 in_=openapi.IN_QUERY,
+#                 type=openapi.TYPE_INTEGER,
+#                 required=False,
+#                 description="Required for Admin, ignored for Manager",
+#             ),
+#             openapi.Parameter(
+#                 name="month",
+#                 in_=openapi.IN_QUERY,
+#                 type=openapi.TYPE_STRING,
+#                 required=False,
+#                 description="Report month YYYYMM",
+#             ),
+#         ],
+#     )
+#     def get(self, request):
+#         month_code = request.GET.get("month")
+
+#         try:
+#             report_month = get_report_month(month_code)
+#         except ReportingMonth.DoesNotExist:
+#             return Response({"error": "Invalid month code"}, status=400)
+
+#         if request.user.is_authenticated and request.user.role == "CREATOR":
+#             creator = request.user.creator_profile.filter(
+#                 report_month=report_month
+#             ).first()
+
+#             if not creator:
+#                 return Response({"error": "Creator data not found"}, status=404)
+
+#             data = get_creators_data(
+#                 report_month, creator_id=creator.id, manager_id=creator.manager.id
+#             )
+
+#         elif request.user.is_authenticated and request.user.role == "MANAGER":
+#             manager = request.user.manager_profile.filter(
+#                 report_month=report_month
+#             ).first()
+
+#             if not manager:
+#                 return Response({"error": "Manager data not found"}, status=404)
+
+#             data = get_creators_data(report_month, manager_id=manager.id)
+
+#         elif request.user.is_authenticated and request.user.role == "SUPER_ADMIN":
+#             manager_id = request.GET.get("manager_id")
+
+#             if not manager_id:
+#                 return Response(
+#                     {"error": "manager_id query param is required"}, status=400
+#                 )
+
+#             data = get_creators_data(report_month, manager_id=manager_id)
+
+#         else:
+#             return Response({"error": "Unauthorized"}, status=403)
+
+
+#         serializer = CreatorDashboardSerializer(data, many=True)
+#         return Response(serializer.data)
 class CreatorDashboardView(APIView):
-    @swagger_auto_schema(
-        operation_summary="Creator Dashboard (Role Based)",
-        tags=["Dashboards"],
-        manual_parameters=[
-            openapi.Parameter(
-                name="manager_id",
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_INTEGER,
-                required=False,
-                description="Required for Admin, ignored for Manager",
-            ),
-            openapi.Parameter(
-                name="month",
-                in_=openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                required=False,
-                description="Report month YYYYMM",
-            ),
-        ],
-    )
+    permission_classes = [IsCreator | IsManager | IsAdmin]
+
     def get(self, request):
         month_code = request.GET.get("month")
+        creator_id = request.GET.get("creator_id")
+        manager_id = request.GET.get("manager_id")
 
         try:
             report_month = get_report_month(month_code)
         except ReportingMonth.DoesNotExist:
             return Response({"error": "Invalid month code"}, status=400)
 
-        if request.user.is_authenticated and request.user.role == "CREATOR":
-            creator = request.user.creator_profile.filter(
-                report_month=report_month
-            ).first()
+        user = request.user
+
+        # ================= CREATOR =================
+        if user.role == "CREATOR":
+            creator = user.creator_profile.filter(report_month=report_month).first()
 
             if not creator:
                 return Response({"error": "Creator data not found"}, status=404)
 
             data = get_creators_data(
-                report_month, creator_id=creator.id, manager_id=creator.manager.id
+                report_month,
+                creator_id=creator.id,
+                manager_id=creator.manager.id,
             )
 
-        elif request.user.is_authenticated and request.user.role == "MANAGER":
-            manager = request.user.manager_profile.filter(
-                report_month=report_month
-            ).first()
+        # ================= MANAGER =================
+        elif user.role == "MANAGER":
+            manager = user.manager_profile.filter(report_month=report_month).first()
 
             if not manager:
                 return Response({"error": "Manager data not found"}, status=404)
 
-            data = get_creators_data(report_month, manager_id=manager.id)
+            # creator_id optional
+            data = get_creators_data(
+                report_month,
+                manager_id=manager.id,
+                creator_id=creator_id,
+            )
 
-        elif request.user.is_authenticated and request.user.role == "SUPER_ADMIN":
-            manager_id = request.GET.get("manager_id")
+        # ================= ADMIN =================
+        elif user.role == "SUPER_ADMIN":
 
-            if not manager_id:
-                return Response(
-                    {"error": "manager_id query param is required"}, status=400
+            if creator_id:
+                creator = (
+                    Creator.objects.filter(id=creator_id, report_month=report_month)
+                    .select_related("manager")
+                    .first()
                 )
 
-            data = get_creators_data(report_month, manager_id=manager_id)
+                if not creator:
+                    return Response(
+                        {"error": "Creator data not found"},
+                        status=404,
+                    )
+
+                data = get_creators_data(
+                    report_month,
+                    creator_id=creator.id,
+                    manager_id=creator.manager.id,
+                )
+
+            elif manager_id:
+                data = get_creators_data(
+                    report_month,
+                    manager_id=manager_id,
+                )
+
+            else:
+                return Response(
+                    {"error": "Either creator_id or manager_id is required"},
+                    status=400,
+                )
 
         else:
             return Response({"error": "Unauthorized"}, status=403)
