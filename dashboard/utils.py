@@ -1,10 +1,10 @@
-from django.db.models import Sum, Count, F, Window, Q, Case, When, IntegerField
+from django.db.models import Sum, Count, F, Window, Q, Subquery, OuterRef
 from django.db.models.functions import RowNumber
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from creators.models import Creator
 from managers.models import Manager
-from ai_insights.models import AITarget, AIManagerTarget
+from ai_insights.models import AITarget, AIManagerTarget, AIDailySummary
 from dashboard.helpers import (
     get_prev_month_of,
     get_prev_n_months_codes,
@@ -72,23 +72,28 @@ def get_managers_data(report_month, manager_id=None):
     )
     targets_lookup = {t.user_id: t.team_target_diamonds or 0 for t in targets_qs}
 
-    all_creators = Creator.objects.filter(
-        report_month=report_month, manager_id__in=manager_ids
-    ).select_related("user")
+    latest_priority = Subquery(
+        AIDailySummary.objects.filter(user=OuterRef("user"))
+        .order_by("-updated_at")
+        .values("priority")[:1]
+    )
+    all_creators = (
+        Creator.objects.filter(report_month=report_month, manager_id__in=manager_ids)
+        .select_related("user")
+        .annotate(latest_priority=latest_priority)
+    )
 
     # Annotate alert counts per manager
     alert_counts_qs = all_creators.values("manager_id").annotate(
         at_risk=Count(
-            Case(
-                When(user__aidailysummary__priority__iexact="high", then=1),
-                output_field=IntegerField(),
-            )
+            "id",
+            filter=Q(latest_priority__iexact="high"),
+            distinct=True,
         ),
         excellent=Count(
-            Case(
-                When(user__aidailysummary__priority__isnull=True, then=1),
-                output_field=IntegerField(),
-            )
+            "id",
+            filter=Q(latest_priority__isnull=True),
+            distinct=True,
         ),
     )
 
