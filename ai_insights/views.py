@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from accounts.models import User
-from creators.models import Creator
+from creators.models import Creator, Manager
 from api.permissions import IsAdmin, IsManager
 from collections import defaultdict
 from drf_yasg.utils import swagger_auto_schema
@@ -90,25 +90,67 @@ class AIResponseView(APIView):
         current_month = get_current_month()
         prev_month = get_previous_month()
 
-        # basic user info
-        response = {
-            "user": {
-                "username": user.username,
-                "role": user.role,
-            }
+        creator_id = request.query_params.get("creator_id")
+        manager_id = request.query_params.get("manager_id")
+
+        target_user = user
+        response = {}
+
+        # ===== ADMIN impersonation =====
+        if user.role in ["ADMIN", "SUPER_ADMIN"]:
+            if creator_id:
+                creator = (
+                    Creator.objects.select_related("user")
+                    .filter(id=creator_id, report_month=current_month)
+                    .first()
+                )
+                if not creator:
+                    return Response({"detail": "Creator not found"}, status=404)
+                target_user = creator.user
+
+            elif manager_id:
+                manager = (
+                    Manager.objects.select_related("user").filter(id=manager_id).first()
+                )
+                if not manager:
+                    return Response({"detail": "Manager not found"}, status=404)
+                target_user = manager.user
+
+        # ===== MANAGER =====
+        elif user.role == "MANAGER" and creator_id:
+            creator = (
+                Creator.objects.select_related("user")
+                .filter(
+                    id=creator_id,
+                    manager__user=user,
+                    report_month=current_month,
+                )
+                .first()
+            )
+            if not creator:
+                return Response(
+                    {"detail": "Creator not under this manager"},
+                    status=403,
+                )
+            target_user = creator.user
+        # ===== base user info (IMPORTANT) =====
+        response["user"] = {
+            "username": target_user.username,
+            "role": target_user.role,
         }
 
-        # ======== CREATOR ========
-        if user.role == "CREATOR":
+        # ===== CREATOR =====
+        if target_user.role == "CREATOR":
             creator = (
-                Creator.objects.filter(user=user, report_month=current_month)
+                Creator.objects.filter(user=target_user, report_month=current_month)
                 .select_related("manager__user")
                 .first()
             )
-            # prev month target
-            target = AITarget.objects.filter(user=user, report_month=prev_month).first()
 
-            # manager info
+            target = AITarget.objects.filter(
+                user=target_user, report_month=prev_month
+            ).first()
+
             response["manager"] = {
                 "username": (
                     creator.manager.user.username
@@ -117,32 +159,13 @@ class AIResponseView(APIView):
                 )
             }
 
-            # prev month target info
             response["target"] = {
                 "diamonds": target.target_diamonds if target else 0,
                 "milestone": target.target_milestone if target else None,
             }
 
-            # own AI data
-            response.update(get_common_ai_data(user, current_month))
-
-        # ======== MANAGER ========
-        elif user.role == "MANAGER":
-            # prev month target
-            target = AIManagerTarget.objects.filter(
-                user=user, report_month=prev_month
-            ).first()
-            response["target"] = {
-                "diamonds": target.team_target_diamonds if target else 0
-            }
-
-            # own data
-            response.update(get_common_ai_data(user, current_month))
-
-        # ======== ADMIN ========
-        elif user.role in ["ADMIN", "SUPER_ADMIN"]:
-            # own data
-            response.update(get_common_ai_data(user, current_month))
+        # ===== common AI data for ALL =====
+        response.update(get_common_ai_data(target_user, current_month))
 
         return Response(response)
 

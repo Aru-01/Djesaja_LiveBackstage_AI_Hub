@@ -1,10 +1,5 @@
 from django.utils import timezone
-from ai_insights.models import (
-    AIMessage,
-    AIDailySummary,
-    AIScenario,
-    AIMetric,
-)
+from ai_insights.models import AIMessage, AIDailySummary, AIScenario, AIMetric, AITarget
 from api.models import ReportingMonth
 from datetime import datetime, timedelta
 from api.models import ReportingMonth
@@ -62,9 +57,9 @@ def get_common_ai_data(user, report_month):
         user=user, report_month=report_month
     ).first()
 
-    scenario = AIScenario.objects.filter(user=user, report_month=report_month).first()
+    # scenario = AIScenario.objects.filter(user=user, report_month=report_month).first()
 
-    metric = AIMetric.objects.filter(user=user, report_month=report_month).first()
+    # metric = AIMetric.objects.filter(user=user, report_month=report_month).first()
 
     return {
         "welcome_msg": {
@@ -83,8 +78,6 @@ def get_common_ai_data(user, report_month):
             "status": summary.status if summary else None,
             "updated_at": format_datetime(summary.updated_at) if summary else None,
         },
-        "scenarios": scenario.data if scenario else {},
-        "metrics": metric.data if metric else {},
     }
 
 

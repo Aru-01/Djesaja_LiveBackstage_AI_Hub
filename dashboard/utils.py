@@ -66,7 +66,7 @@ def get_managers_data(report_month, manager_id=None):
             "hours": row["total_hours"] or 0,
         }
 
-    # 🔹 prev_month targets for all managers
+    # prev_month targets for all managers
     targets_qs = AIManagerTarget.objects.filter(
         user_id__in=[m.user.id for m in qs], report_month=prev_month
     )
@@ -83,7 +83,7 @@ def get_managers_data(report_month, manager_id=None):
         .annotate(latest_priority=latest_priority)
     )
 
-    # Annotate alert counts per manager
+    # Annotate alert count per manager
     alert_counts_qs = all_creators.values("manager_id").annotate(
         at_risk=Count(
             "id",
@@ -97,7 +97,6 @@ def get_managers_data(report_month, manager_id=None):
         ),
     )
 
-    # Convert to dict for easy lookup
     alerts_lookup = {
         row["manager_id"]: {"at_risk": row["at_risk"], "excellent": row["excellent"]}
         for row in alert_counts_qs
@@ -108,7 +107,7 @@ def get_managers_data(report_month, manager_id=None):
         last_3_months = build_last_3_months_stats(stats_lookup, m.id, last_months_codes)
 
         target_diamonds = targets_lookup.get(m.user.id, 0)
-        # --- Add alert counts ---
+        #  alert counts
         alerts = alerts_lookup.get(m.id, {"at_risk": 0, "excellent": 0})
         manager_list.append(
             {
@@ -165,7 +164,7 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
     )
     targets_lookup = {t.user_id: t.target_diamonds or 0 for t in targets_qs}
 
-    # 🔹 ranking
+    #  ranking
     qs = qs.annotate(
         rank=Window(
             expression=RowNumber(),
