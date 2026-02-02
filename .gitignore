@@ -10,3 +10,5 @@ staticfiles
 .json
 ai_response_daily.json
 ai_response_month_start.json
+
+media/profiles
