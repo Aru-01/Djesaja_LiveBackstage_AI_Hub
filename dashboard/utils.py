@@ -15,7 +15,7 @@ from dashboard.helpers import (
 User = get_user_model()
 
 
-def get_managers_data(report_month, manager_id=None):
+def get_managers_data(report_month, manager_id=None, search=None):
     prev_month = get_prev_month_of(report_month)
     last_months_codes = get_prev_n_months_codes(report_month, n=3)
 
@@ -44,6 +44,8 @@ def get_managers_data(report_month, manager_id=None):
         )
         .order_by("-total_diamond")
     )
+    if search:
+        qs = qs.filter(user__username__icontains=search)
 
     manager_ids = [m.id for m in qs]
 
@@ -134,19 +136,25 @@ def get_managers_data(report_month, manager_id=None):
     return manager_list
 
 
-def get_creators_data(report_month, creator_id=None, manager_id=None):
+def get_creators_data(report_month, creator_id=None, manager_id=None, search=None):
     prev_month = get_prev_month_of(report_month)
     last_months_codes = get_prev_n_months_codes(report_month, n=3)
 
-    qs = Creator.objects.filter(
-        report_month=report_month, manager_id=manager_id
-    ).select_related("user", "manager__user")
+    qs = Creator.objects.filter(report_month=report_month).select_related(
+        "user", "manager__user"
+    )
+
+    if manager_id:
+        qs = qs.filter(manager_id=manager_id)
+
+    if search:
+        qs = qs.filter(user__username__icontains=search)
 
     creator_ids = [c.user.id for c in qs]
+
     stats_qs = (
         Creator.objects.filter(
-            user_id__in=creator_ids,
-            report_month__code__in=last_months_codes,
+            user_id__in=creator_ids, report_month__code__in=last_months_codes
         )
         .values("user_id", "report_month__code")
         .annotate(
@@ -167,14 +175,13 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
     )
     targets_lookup = {t.user_id: t.target_diamonds or 0 for t in targets_qs}
 
-    #  ranking
     qs = qs.annotate(
         rank=Window(
             expression=RowNumber(),
             partition_by=[F("manager_id")],
             order_by=F("diamonds").desc(),
         )
-    ).order_by("-diamonds")
+    ).order_by("manager_id", "-diamonds")
 
     creator_list = []
     for c in qs:
@@ -200,9 +207,8 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
                 "last_3_months": last_3_months,
             }
         )
-
-    if creator_id:
-        creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
+        if creator_id:
+            creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
 
     return creator_list
 

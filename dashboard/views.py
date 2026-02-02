@@ -85,6 +85,13 @@ class ManagerDashboardView(APIView):
                 required=False,
                 description="Manager ID (Admin only, optional)",
             ),
+            openapi.Parameter(
+                name="search",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Search by username (optional)",
+            ),
         ],
         responses={
             200: ManagerDashboardSerializer(many=True),
@@ -95,6 +102,7 @@ class ManagerDashboardView(APIView):
     def get(self, request):
 
         month_code = request.GET.get("month")
+        search = request.GET.get("search")
         try:
             report_month = get_report_month(month_code)
         except ReportingMonth.DoesNotExist:
@@ -113,7 +121,7 @@ class ManagerDashboardView(APIView):
 
         elif request.user.role in "SUPER_ADMIN":
             manager_id = request.GET.get("manager_id")
-            data = get_managers_data(report_month, manager_id=manager_id)
+            data = get_managers_data(report_month, manager_id=manager_id, search=search)
 
         else:
             return Response({"error": "Unauthorized"}, status=403)
@@ -129,10 +137,47 @@ class ManagerDashboardView(APIView):
 class CreatorDashboardView(APIView):
     permission_classes = [IsCreator | IsManager | IsAdmin]
 
+    @swagger_auto_schema(
+        operation_summary="Creator Dashboard",
+        tags=["Dashboards"],
+        manual_parameters=[
+            openapi.Parameter(
+                name="month",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Report month in YYYYMM format",
+                example="202601",
+            ),
+            openapi.Parameter(
+                name="creator_id",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description="Filter by Creator ID (Admin only or Manager)",
+            ),
+            openapi.Parameter(
+                name="manager_id",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_INTEGER,
+                required=False,
+                description="Filter creators by Manager ID (Admin only)",
+            ),
+            openapi.Parameter(
+                name="search",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Search creators by username (Admin/Manager/Creator)",
+            ),
+        ],
+        responses={200: CreatorDashboardSerializer(many=True)},
+    )
     def get(self, request):
         month_code = request.GET.get("month")
         creator_id = request.GET.get("creator_id")
         manager_id = request.GET.get("manager_id")
+        search = request.GET.get("search")
 
         try:
             report_month = get_report_month(month_code)
@@ -144,7 +189,6 @@ class CreatorDashboardView(APIView):
         # ================= CREATOR =================
         if user.role == "CREATOR":
             creator = user.creator_profile.filter(report_month=report_month).first()
-
             if not creator:
                 return Response({"error": "Creator data not found"}, status=404)
 
@@ -152,20 +196,20 @@ class CreatorDashboardView(APIView):
                 report_month,
                 creator_id=creator.id,
                 manager_id=creator.manager.id,
+                search=search,
             )
 
         # ================= MANAGER =================
         elif user.role == "MANAGER":
             manager = user.manager_profile.filter(report_month=report_month).first()
-
             if not manager:
                 return Response({"error": "Manager data not found"}, status=404)
 
-            # creator_id optional
             data = get_creators_data(
                 report_month,
                 manager_id=manager.id,
                 creator_id=creator_id,
+                search=search,
             )
 
         # ================= ADMIN =================
@@ -177,37 +221,28 @@ class CreatorDashboardView(APIView):
                     .select_related("manager")
                     .first()
                 )
-
                 if not creator:
-                    return Response(
-                        {"error": "Creator data not found"},
-                        status=404,
-                    )
+                    return Response({"error": "Creator data not found"}, status=404)
 
                 data = get_creators_data(
                     report_month,
                     creator_id=creator.id,
                     manager_id=creator.manager.id,
-                )
-
-            elif manager_id:
-                data = get_creators_data(
-                    report_month,
-                    manager_id=manager_id,
+                    search=search,
                 )
 
             else:
-                return Response(
-                    {"error": "Either creator_id or manager_id is required"},
-                    status=400,
+                # fetch all creators, optionally filter by manager_id and/or search
+                data = get_creators_data(
+                    report_month,
+                    manager_id=manager_id,
+                    search=search,
                 )
 
         else:
             return Response({"error": "Unauthorized"}, status=403)
 
         serializer = CreatorDashboardSerializer(
-            data,
-            many=True,
-            context={"request": request},
+            data, many=True, context={"request": request}
         )
         return Response(serializer.data)
