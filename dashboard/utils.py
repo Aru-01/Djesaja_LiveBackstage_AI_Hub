@@ -113,6 +113,9 @@ def get_managers_data(report_month, manager_id=None):
             {
                 "id": m.id,
                 "username": m.user.username,
+                "profile_image": (
+                    m.user.profile_image.url if m.user.profile_image else None
+                ),
                 "my_creators": m.my_creators or 0,
                 "rank": m.rank,
                 "total_coin": m.total_coin or 0,
@@ -184,6 +187,9 @@ def get_creators_data(report_month, creator_id=None, manager_id=None):
             {
                 "id": c.id,
                 "username": c.user.username,
+                "profile_image": (
+                    c.user.profile_image.url if c.user.profile_image else None
+                ),
                 "manager_id": c.manager.id if c.manager else None,
                 "manager_username": c.manager.user.username if c.manager else None,
                 "total_coin": c.estimated_bonus_contribution,
