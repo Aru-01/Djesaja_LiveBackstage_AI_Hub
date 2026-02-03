@@ -45,3 +45,11 @@ class OTP(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.created_at + timedelta(minutes=5)
+
+
+# for u in users:
+#     if u.username:
+#         u.set_password(u.username)
+#     u.email = None
+#     u.email_verified = False
+#     u.save()

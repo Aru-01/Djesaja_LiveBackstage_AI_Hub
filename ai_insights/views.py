@@ -443,7 +443,15 @@ class AlertsView(APIView):
                 }
             )
 
-        alert_counts = get_alert_counts(users_for_counter, current_month)
+        # alert_counts = get_alert_counts(users_for_counter, current_month)
+        alert_counts = {
+            "high": sum(
+                1 for a in data if str(a.get("priority", "")).lower() == "high"
+            ),
+            "low": sum(1 for a in data if str(a.get("priority", "")).lower() != "high"),
+        }
+
+        # return Response({"alert_counts": alert_counts, "alerts": data})
         return Response({"alert_counts": alert_counts, "alerts": data})
 
     @swagger_auto_schema(
