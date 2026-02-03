@@ -15,7 +15,6 @@ class ManagerListView(generics.ListAPIView):
     # .order_by("-month")
     serializer_class = ManagerSerializer
 
-    # permission_classes = [permissions.IsAuthenticated]
     @swagger_auto_schema(
         operation_summary="List Managers (Admin / Internal)",
         tags=["Managers"],
@@ -57,5 +56,3 @@ class ManagerDetailView(generics.RetrieveAPIView):
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
-    # permission_classes = [permissions.IsAuthenticated]

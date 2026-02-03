@@ -1,5 +1,8 @@
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, permissions
+from rest_framework_simplejwt.views import TokenObtainPairView
 from accounts.serializers import (
     UserSerializer,
     SelfProfileUpdateSerializer,
@@ -10,9 +13,6 @@ from accounts.serializers import (
     VerifyOtpSerializer,
     MyTokenObtainPairSerializer,
 )
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from rest_framework_simplejwt.views import TokenObtainPairView
 from accounts.utils import create_otp, can_resend_otp, send_otp_email, verify_otp
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi

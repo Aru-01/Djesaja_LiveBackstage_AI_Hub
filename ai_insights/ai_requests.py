@@ -105,7 +105,6 @@ def send_ai_request(payload: dict, mode: str):
     headers = {"Content-Type": "application/json"}
 
     print("📤 Request Payload:")
-    # print(json.dumps(payload, indent=2))
 
     response = requests.post(AI_ENDPOINT, headers=headers, json=payload)
 
@@ -167,7 +166,6 @@ def save_daily_response_to_db(response, report_month):
                 "suggested_actions": c.get("suggested_actions"),
                 "alert_type": c.get("alert", {}).get("type"),
                 "alert_message": c.get("alert", {}).get("message"),
-                # "alert_message": alert.get("message"),
                 "priority": c.get("alert", {}).get("priority"),
                 "status": c.get("alert", {}).get("status"),
             },

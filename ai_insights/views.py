@@ -16,7 +16,6 @@ from ai_insights.utils import (
     normalize_actions,
     format_datetime,
     get_common_ai_data,
-    get_alert_counts,
 )
 
 
@@ -96,7 +95,7 @@ class AIResponseView(APIView):
         target_user = user
         response = {}
 
-        # ===== ADMIN impersonation =====
+        # ===== ADMIN  =====
         if user.role in ["ADMIN", "SUPER_ADMIN"]:
             if creator_id:
                 creator = (
@@ -391,7 +390,7 @@ class AlertsView(APIView):
                     )
             return alerts_list
 
-        # ---------------- ADMIN / SUPER_ADMIN ----------------
+        # ---------------- ADMIN ----------------
         if user.role in ["ADMIN", "SUPER_ADMIN"]:
             # own alerts
             data.extend(fetch_alerts([user], user.role))
@@ -443,7 +442,6 @@ class AlertsView(APIView):
                 }
             )
 
-        # alert_counts = get_alert_counts(users_for_counter, current_month)
         alert_counts = {
             "high": sum(
                 1 for a in data if str(a.get("priority", "")).lower() == "high"
@@ -451,7 +449,6 @@ class AlertsView(APIView):
             "low": sum(1 for a in data if str(a.get("priority", "")).lower() != "high"),
         }
 
-        # return Response({"alert_counts": alert_counts, "alerts": data})
         return Response({"alert_counts": alert_counts, "alerts": data})
 
     @swagger_auto_schema(
@@ -503,7 +500,7 @@ class AlertsView(APIView):
             user=recipient,
             message_type="PUSH_NOTIFICATION",
             message=message,
-            expires_at=timezone.now() + timedelta(days=7),  # optional expiry
+            expires_at=timezone.now() + timedelta(days=7),
         )
 
         return Response({"detail": f"Notification sent to {recipient.username}"})
