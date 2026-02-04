@@ -246,3 +246,38 @@ class CreatorDashboardView(APIView):
             data, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+
+class CreatorRankView(APIView):
+    permission_classes = [IsCreator]
+
+    @swagger_auto_schema(
+        operation_summary="Creator Rank (Manager-wise)",
+        tags=["Dashboards"],
+        manual_parameters=[
+            openapi.Parameter(
+                name="month",
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=False,
+                description="Report month in YYYYMM format",
+                example="202601",
+            )
+        ],
+        responses={200: CreatorDashboardSerializer(many=True)},
+    )
+    def get(self, request):
+        month_code = request.GET.get("month")
+
+        try:
+            report_month = get_report_month(month_code)
+        except ReportingMonth.DoesNotExist:
+            return Response({"error": "Invalid month code"}, status=400)
+
+        creator = request.user.creator_profile.filter(report_month=report_month).first()
+        if not creator:
+            return Response({"error": "Creator data not found"}, status=404)
+
+        data = get_creators_data(report_month, manager_id=creator.manager.id)
+
+        return Response(data)

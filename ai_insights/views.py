@@ -504,3 +504,7 @@ class AlertsView(APIView):
         )
 
         return Response({"detail": f"Notification sent to {recipient.username}"})
+
+
+#
+# User.objects.filter(id=1552).exists()

@@ -207,8 +207,8 @@ def get_creators_data(report_month, creator_id=None, manager_id=None, search=Non
                 "last_3_months": last_3_months,
             }
         )
-        if creator_id:
-            creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
+    if creator_id:
+        creator_list = [c for c in creator_list if c["id"] == int(creator_id)]
 
     return creator_list
 
