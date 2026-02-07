@@ -24,7 +24,9 @@ def get_managers_data(report_month, manager_id=None, search=None):
         .select_related("user")
         .annotate(
             my_creators=Count(
-                "creators", filter=Q(creators__report_month=report_month), distinct=True
+                "creators",
+                filter=Q(creators__report_month=report_month),
+                distinct=True,
             ),
             total_coin=Sum(
                 "creators__estimated_bonus_contribution",
@@ -44,73 +46,77 @@ def get_managers_data(report_month, manager_id=None, search=None):
         )
         .order_by("-total_diamond")
     )
+
     if search:
         qs = qs.filter(user__username__icontains=search)
 
-    manager_ids = [m.id for m in qs]
+    manager_user_ids = [m.user.id for m in qs]
 
+    # 🔥 creator history aggregated by manager USER
     stats_qs = (
         Creator.objects.filter(
-            manager_id__in=manager_ids,
+            manager__user_id__in=manager_user_ids,
             report_month__code__in=last_months_codes,
         )
-        .values("manager_id", "report_month__code")
+        .values("manager__user_id", "report_month__code")
         .annotate(
             total_diamonds=Sum("diamonds"),
             total_hours=Sum("live_duration"),
         )
     )
-    stats_lookup = {}
 
+    stats_lookup = {}
     for row in stats_qs:
-        stats_lookup.setdefault(row["manager_id"], {})[row["report_month__code"]] = {
+        stats_lookup.setdefault(row["manager__user_id"], {})[
+            row["report_month__code"]
+        ] = {
             "diamonds": row["total_diamonds"] or 0,
             "hours": row["total_hours"] or 0,
         }
 
-    # prev_month targets for all managers
+    # targets
     targets_qs = AIManagerTarget.objects.filter(
-        user_id__in=[m.user.id for m in qs], report_month=prev_month
+        user_id__in=manager_user_ids, report_month=prev_month
     )
     targets_lookup = {t.user_id: t.team_target_diamonds or 0 for t in targets_qs}
 
+    # alerts
     latest_priority = Subquery(
         AIDailySummary.objects.filter(user=OuterRef("user"))
         .order_by("-updated_at")
         .values("priority")[:1]
     )
+
     all_creators = (
-        Creator.objects.filter(report_month=report_month, manager_id__in=manager_ids)
+        Creator.objects.filter(
+            report_month=report_month,
+            manager__user_id__in=manager_user_ids,
+        )
         .select_related("user")
         .annotate(latest_priority=latest_priority)
     )
 
-    # Annotate alert count per manager
-    alert_counts_qs = all_creators.values("manager_id").annotate(
-        at_risk=Count(
-            "id",
-            filter=Q(latest_priority__iexact="high"),
-            distinct=True,
-        ),
-        excellent=Count(
-            "id",
-            filter=Q(latest_priority__isnull=True),
-            distinct=True,
-        ),
+    alert_counts = all_creators.values("manager__user_id").annotate(
+        at_risk=Count("id", filter=Q(latest_priority__iexact="high")),
+        excellent=Count("id", filter=Q(latest_priority__isnull=True)),
     )
 
     alerts_lookup = {
-        row["manager_id"]: {"at_risk": row["at_risk"], "excellent": row["excellent"]}
-        for row in alert_counts_qs
+        row["manager__user_id"]: {
+            "at_risk": row["at_risk"],
+            "excellent": row["excellent"],
+        }
+        for row in alert_counts
     }
 
     manager_list = []
     for m in qs:
-        last_3_months = build_last_3_months_stats(stats_lookup, m.id, last_months_codes)
+        last_3_months = build_last_3_months_stats(
+            stats_lookup,
+            m.user.id,
+            last_months_codes,
+        )
 
-        target_diamonds = targets_lookup.get(m.user.id, 0)
-        #  alert counts
-        alerts = alerts_lookup.get(m.id, {"at_risk": 0, "excellent": 0})
         manager_list.append(
             {
                 "id": m.id,
@@ -123,10 +129,10 @@ def get_managers_data(report_month, manager_id=None, search=None):
                 "total_coin": m.total_coin or 0,
                 "total_hour": m.total_hour or 0,
                 "total_diamond": m.total_diamond or 0,
-                "target_diamonds": target_diamonds,
+                "target_diamonds": targets_lookup.get(m.user.id, 0),
                 "last_3_months": last_3_months,
-                "at_risk": alerts["at_risk"],
-                "excellent": alerts["excellent"],
+                "at_risk": alerts_lookup.get(m.user.id, {}).get("at_risk", 0),
+                "excellent": alerts_lookup.get(m.user.id, {}).get("excellent", 0),
             }
         )
 
