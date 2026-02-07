@@ -1,5 +1,12 @@
 from django.utils import timezone
-from ai_insights.models import AIMessage, AIDailySummary, AIScenario, AIMetric, AITarget
+from ai_insights.models import (
+    AIMessage,
+    AIDailySummary,
+    AIScenario,
+    AIMetric,
+    AITarget,
+    AIManagerTarget,
+)
 from api.models import ReportingMonth
 from datetime import datetime, timedelta
 from api.models import ReportingMonth
@@ -86,3 +93,10 @@ def get_alert_counts(users, report_month):
     high = qs.filter(priority__iexact="high").count()
     low = qs.filter(priority__isnull=True).count()
     return {"high": high, "low": low}
+
+
+def cleanup_expired_ai_data():
+    now = timezone.now()
+    AITarget.objects.filter(expires_at__lt=now).delete()
+    AIManagerTarget.objects.filter(expires_at__lt=now).delete()
+    AIMessage.objects.filter(expires_at__lt=now).delete()

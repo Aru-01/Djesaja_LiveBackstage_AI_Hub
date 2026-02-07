@@ -16,6 +16,7 @@ from ai_insights.utils import (
     normalize_actions,
     format_datetime,
     get_common_ai_data,
+    cleanup_expired_ai_data,
 )
 
 
@@ -359,6 +360,7 @@ class AlertsView(APIView):
         },
     )
     def get(self, request):
+        cleanup_expired_ai_data()
         user = request.user
         current_month = get_current_month()
         data = []
@@ -504,7 +506,3 @@ class AlertsView(APIView):
         )
 
         return Response({"detail": f"Notification sent to {recipient.username}"})
-
-
-#
-# User.objects.filter(id=1552).exists()
