@@ -7,6 +7,8 @@ class AIManagerTarget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report_month = models.ForeignKey(ReportingMonth, on_delete=models.CASCADE)
     team_target_diamonds = models.IntegerField()
+
+    expires_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
