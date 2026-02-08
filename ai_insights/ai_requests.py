@@ -111,8 +111,8 @@ def send_ai_request(payload: dict, mode: str):
 
 
 def save_monthly_response_to_db(response, report_month):
-    expires_at = timezone.now() + timedelta(days=40)
-    msg_expires_at = timezone.now() + timedelta(days=4)
+    expires_at = timezone.now() + timedelta(days=33)
+    msg_expires_at = timezone.now() + timedelta(days=3)
 
     for c in response["creator_targets"]["creators"]:
         user = User.objects.get(username=c["creator_id"])
@@ -132,7 +132,10 @@ def save_monthly_response_to_db(response, report_month):
         AIManagerTarget.objects.update_or_create(
             user=user,
             report_month=report_month,
-            defaults={"team_target_diamonds": m["team_target_diamonds"]},
+            defaults={
+                "team_target_diamonds": m["team_target_diamonds"],
+                "expires_at": expires_at,
+            },
         )
 
     for msg in response["welcome_messages"]["messages"]:
