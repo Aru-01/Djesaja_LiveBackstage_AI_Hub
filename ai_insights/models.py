@@ -40,7 +40,7 @@ class AITarget(models.Model):
 
 
 class AIMessage(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     message_type = models.CharField(max_length=150)
     message = models.TextField(blank=True, null=True)

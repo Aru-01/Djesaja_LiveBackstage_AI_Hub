@@ -8,7 +8,7 @@ class CreatorSerializer(serializers.ModelSerializer):
     manager_username = serializers.CharField(
         source="manager.user.username", read_only=True
     )
-    creator_uid = serializers.CharField(default="", allow_null=True)
+    creator_uid = serializers.CharField(read_only=True)
     manager_uid = serializers.CharField(
         source="manager.manager_uid", read_only=True, default="", allow_null=True
     )
