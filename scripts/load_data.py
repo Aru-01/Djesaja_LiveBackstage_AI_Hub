@@ -154,7 +154,7 @@ def get_or_create_user_by_uid_or_username(
         ),
         email_verified=bool(email),
     )
-    user.set_password(unique_username)
+    user.set_password("1234")
     user.save()
     return user, True
 
