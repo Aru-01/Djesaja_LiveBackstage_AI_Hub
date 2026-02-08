@@ -8,13 +8,19 @@ class CreatorSerializer(serializers.ModelSerializer):
     manager_username = serializers.CharField(
         source="manager.user.username", read_only=True
     )
+    creator_uid = serializers.CharField(default="", allow_null=True)
+    manager_uid = serializers.CharField(
+        source="manager.manager_uid", read_only=True, default="", allow_null=True
+    )
 
     class Meta:
         model = Creator
         fields = [
             "id",
             "user",
+            "creator_uid",
             "manager",
+            "manager_uid",
             "manager_username",
             "estimated_bonus_contribution",
             "achieved_milestones",
@@ -22,5 +28,6 @@ class CreatorSerializer(serializers.ModelSerializer):
             "valid_go_live_days",
             "live_duration",
             "created_at",
+            "updated_at",
         ]
-        read_only_fields = ["id", "created_at"]
+        read_only_fields = ["id", "created_at", "updated_at"]

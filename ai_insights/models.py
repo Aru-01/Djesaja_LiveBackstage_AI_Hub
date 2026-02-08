@@ -55,7 +55,9 @@ class AIMessage(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.username} x {self.message_type}"
+        return (
+            f"{self.user.username if self.user else 'Anonymous'} x {self.message_type}"
+        )
 
 
 class AIDailySummary(models.Model):
