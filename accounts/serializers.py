@@ -11,9 +11,11 @@ from accounts.utils import (
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
+        uid = serializers.CharField(read_only=True, default="", allow_null=True)
         model = User
         fields = [
             "username",
+            "uid",
             "name",
             "email",
             "profile_image",
