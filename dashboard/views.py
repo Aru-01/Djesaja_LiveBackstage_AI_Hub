@@ -119,7 +119,7 @@ class ManagerDashboardView(APIView):
             manager_id = manager.id
             data = get_managers_data(report_month, manager_id=manager_id)
 
-        elif request.user.role in "SUPER_ADMIN":
+        elif request.user.role == "SUPER_ADMIN":
             manager_id = request.GET.get("manager_id")
             data = get_managers_data(report_month, manager_id=manager_id, search=search)
 

@@ -13,6 +13,9 @@ class Manager(models.Model):
         on_delete=models.CASCADE,
         related_name="month_managers",
     )
+
+    manager_uid = models.CharField(max_length=100, db_index=True, null=True, blank=True)
+
     eligible_creators = models.IntegerField(default=0)
     estimated_bonus_contribution = models.FloatField(default=0.0)
     diamonds = models.IntegerField(default=0)
@@ -20,6 +23,7 @@ class Manager(models.Model):
     M1 = models.IntegerField(default=0)
     M2 = models.IntegerField(default=0)
     M1R = models.IntegerField(default=0)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
