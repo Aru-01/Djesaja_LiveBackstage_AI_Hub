@@ -136,6 +136,10 @@ REST_FRAMEWORK = {
     ),
     # "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
+AUTHENTICATION_BACKENDS = [
+    "accounts.auth_backends.UsernameEmailUIDBackend",
+]
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
     "AUTH_HEADER_TYPES": ("Bearer",),

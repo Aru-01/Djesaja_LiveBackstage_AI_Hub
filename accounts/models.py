@@ -16,11 +16,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
 
     username = models.CharField(max_length=250, unique=True)
+    uid = models.CharField(max_length=100, db_index=True, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True)
     name = models.CharField(max_length=255, null=True, blank=True)
+
     profile_image = models.ImageField(upload_to="profiles/", null=True, blank=True)
+
     email_verified = models.BooleanField(default=False)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
