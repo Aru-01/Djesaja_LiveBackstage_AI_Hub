@@ -18,7 +18,7 @@ from accounts.models import User
 from managers.models import Manager
 from creators.models import Creator
 from api.models import ReportingMonth
-from scraper import scrape_dashboard
+from scripts.scraper import scrape_dashboard
 
 
 # ------------------ Helpers ------------------
@@ -261,8 +261,7 @@ if __name__ == "__main__":
     # current_month = "202601"
 
     def on_manager_scraped(manager_data):
-        for c in manager_data.get("creators", [])[:10]:
-            save_manager_chunk(manager_data, current_month)
+        save_manager_chunk(manager_data, current_month)
 
     scrape_dashboard(on_manager=on_manager_scraped)
 

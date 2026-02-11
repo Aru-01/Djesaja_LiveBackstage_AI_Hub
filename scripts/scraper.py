@@ -17,7 +17,7 @@ DASHBOARD_URL = (
     f"&viewTab=by_manager"
 )
 
-# OUTPUT_FILE = "test.json"
+# OUTPUT_FILE = "feb.json"
 OUTPUT_FILE = None
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATE_FILE = os.path.join(BASE_DIR, "state.json")
@@ -105,12 +105,15 @@ def scrape_dashboard(on_manager=None):
             while True:
                 print(f"\n📄 Manager page {manager_page}")
 
-                rows = page.locator('[role="row"][aria-rowindex]')
+                rows = page.locator("tbody.semi-table-tbody > tr")
                 row_count = rows.count()
 
                 for i in range(row_count):
                     row = rows.nth(i)
-                    manager_name = safe_text(row.locator('[aria-colindex="1"]'))
+                    manager_name = safe_text(row.locator('[aria-colindex="2"]'))
+                    aria_index = row.get_attribute("aria-rowindex")
+                    if aria_index == "0":
+                        continue
 
                     if (
                         not manager_name
@@ -120,19 +123,19 @@ def scrape_dashboard(on_manager=None):
 
                     print("➡️", manager_name)
 
-                    eligible = safe_text(row.locator('[aria-colindex="2"]'))
+                    eligible = safe_text(row.locator('[aria-colindex="3"]'))
 
                     manager = {
                         "Creator Network manager": manager_name,
                         "Eligible creators": eligible,
                         "Estimated bonus contribution": safe_text(
-                            row.locator('[aria-colindex="3"]')
+                            row.locator('[aria-colindex="4"]')
                         ),
-                        "Diamonds": safe_text(row.locator('[aria-colindex="4"]')),
-                        "M0.5": safe_text(row.locator('[aria-colindex="5"]')),
-                        "M1": safe_text(row.locator('[aria-colindex="6"]')),
-                        "M2": safe_text(row.locator('[aria-colindex="7"]')),
-                        "M1R": safe_text(row.locator('[aria-colindex="8"]')),
+                        "Diamonds": safe_text(row.locator('[aria-colindex="5"]')),
+                        "M0.5": safe_text(row.locator('[aria-colindex="6"]')),
+                        "M1": safe_text(row.locator('[aria-colindex="7"]')),
+                        "M2": safe_text(row.locator('[aria-colindex="8"]')),
+                        "M1R": safe_text(row.locator('[aria-colindex="9"]')),
                         "creators": [],
                     }
 
@@ -147,7 +150,7 @@ def scrape_dashboard(on_manager=None):
                         save_progress(final_data)
                         continue
 
-                    btn = row.locator('[aria-colindex="2"] button')
+                    btn = row.locator('[aria-colindex="3"] button')
                     if not btn.count():
                         # final_data.append(manager)
                         if on_manager:
