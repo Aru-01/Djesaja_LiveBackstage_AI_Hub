@@ -1,0 +1,2 @@
+# Scraper + Daily AI every hour, no overlap, max 55min
+10 * * * * flock /tmp/scraper_daily.lock /home/arif/Djesaja_LiveBackstage/.venv/bin/python /home/arif/Djesaja_LiveBackstage/jobs/run_scrape_and_daily.py >> /home/arif/Djesaja_LiveBackstage/logs/scrape_daily.log 2>&1

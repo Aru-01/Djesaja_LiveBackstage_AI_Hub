@@ -212,11 +212,33 @@ def scrape_dashboard(on_manager=None):
                                     )
 
                                 response = resp.value
-                                data = response.json()
+                                text = response.text()
+                                status = response.status
+
+                                if status != 200:
+                                    print(
+                                        f"❌ Non-200 response ({status}) for {creator_name}"
+                                    )
+                                    print(text[:300])
+                                    continue  # skip this creator
+
+                                if not text.strip():
+                                    print(f"⚠️ Empty response body for {creator_name}")
+                                    continue  # skip
+
+                                try:
+                                    data = response.json()
+                                except Exception as e:
+                                    print(
+                                        f"❌ JSON decode failed for {creator_name}: {e}"
+                                    )
+                                    print("Response preview:", text[:300])
+                                    continue
+
                                 creator_xhr = normalize_creator(data)
 
                                 print(
-                                    f"🎯 XHR OK: {creator_xhr.get('AgentName')} | "
+                                    f" XHR OK: {creator_xhr.get('AgentName')} | "
                                     f"{creator_xhr.get('CreatorID')}"
                                 )
 

@@ -1,12 +1,13 @@
 import subprocess
 import sys
 import os
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCRAPER_PATH = os.path.join(BASE_DIR, "scrape_job.py")
 DAILY_AI_PATH = os.path.join(BASE_DIR, "daily_ai_job.py")
-LOCK_FILE = "/tmp/scraper_daily.lock"
+MONTHLY_JOB_PATH = os.path.join(BASE_DIR, "monthly_ai_job.py")
 
 
 def run_script(path):
@@ -21,26 +22,18 @@ def run_script(path):
 
 
 def main():
-    # Use flock to prevent overlap
-    try:
-        # Try to acquire lock
-        fd = os.open(LOCK_FILE, os.O_CREAT | os.O_RDWR)
-        import fcntl
+    print("🚀 Running scraper...")
+    success = run_script(SCRAPER_PATH)
 
-        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except BlockingIOError:
-        print("🚫 Scraper already running. Exiting...")
-        return
+    if success:
+        today = datetime.now()
 
-    try:
-        print("🚀 Running scraper...")
-        success = run_script(SCRAPER_PATH)
-        if success:
-            print("🤖 Running daily AI job...")
-            run_script(DAILY_AI_PATH)
-    finally:
-        fcntl.flock(fd, fcntl.LOCK_UN)
-        os.close(fd)
+        if today.day == 1:
+            print("📅 Running monthly job...")
+            run_script(MONTHLY_JOB_PATH)
+
+        print("🤖 Running daily AI job...")
+        run_script(DAILY_AI_PATH)
 
 
 if __name__ == "__main__":

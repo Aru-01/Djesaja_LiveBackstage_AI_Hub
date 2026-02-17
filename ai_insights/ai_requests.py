@@ -224,7 +224,8 @@ def save_daily_response_to_db(response, report_month):
 def run_chunked_ai(month_code: str, mode: str):
     managers, creators = collect_managers_and_creators(month_code)
     creators_by_manager = group_creators_by_manager(creators)
-    report_month = ReportingMonth.objects.get(code=month_code)
+    # report_month = ReportingMonth.objects.get(code=month_code)
+    report_month, _ = ReportingMonth.objects.get_or_create(code=month_code)
 
     for manager in managers:
         manager_id = manager["id"]

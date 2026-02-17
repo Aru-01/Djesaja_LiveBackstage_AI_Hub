@@ -440,7 +440,7 @@ class AlertsView(APIView):
                     "alert_type": msg.message_type,
                     "priority": "high",
                     "alert_message": msg.message,
-                    "updated_at": format_datetime(msg.created_at),
+                    "updated_at": format_datetime(msg.updated_at),
                 }
             )
 

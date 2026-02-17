@@ -47,6 +47,7 @@ class AIMessage(models.Model):
 
     expires_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         indexes = [
@@ -68,7 +69,7 @@ class AIDailySummary(models.Model):
     reason = models.TextField(blank=True, null=True)
     suggested_actions = models.JSONField(default=list, blank=True, null=True)
     alert_type = models.CharField(max_length=50, blank=True, null=True)
-    alert_message = models.CharField(max_length=50, blank=True, null=True)
+    alert_message = models.CharField(max_length=250, blank=True, null=True)
     priority = models.CharField(max_length=10, blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=True)
 

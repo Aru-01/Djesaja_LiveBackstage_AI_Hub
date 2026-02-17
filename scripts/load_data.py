@@ -57,7 +57,6 @@ def parse_milestones(value):
 def parse_float(value):
     if not value:
         return 0.0
-    # Remove any non-digit/non-dot characters
     value = re.sub(r"[^\d.]+", "", str(value))
     try:
         return float(value)
@@ -100,12 +99,10 @@ def get_or_create_user_by_uid_or_username(
     if user:
         updated = False
         if username and user.username != username:
-            # চেক করো যে username clash হচ্ছে কি না
             if not User.objects.filter(username=username).exclude(pk=user.pk).exists():
                 user.username = username
                 updated = True
             else:
-                # যদি clash হয়, তাহলে unique বানাও
                 base = username
                 counter = 1
                 while (
@@ -122,9 +119,13 @@ def get_or_create_user_by_uid_or_username(
         if role and user.role != role:
             user.role = role
             updated = True
-        if name and getattr(user, "name", None) != name:
+        # if name and getattr(user, "name", None) != name:
+        #     user.name = name
+        #     updated = True
+        if name and not user.name:
             user.name = name
             updated = True
+
         if email and not user.email:
             # Only assign email if it's unique
             if not User.objects.filter(email=email).exists():
@@ -176,7 +177,7 @@ def extract_manager_identity(creators):
 def save_manager_chunk(manager_data, month_code, chunk_size=10):
     report_month = get_reporting_month(month_code)
     manager_name = manager_data.get("Creator Network manager")
-    print(f"\n🧑 Manager incoming: {manager_name}")
+    print(f"\n Manager incoming: {manager_name}")
 
     creators = manager_data.get("creators", [])
     manager_uid, manager_email = extract_manager_identity(creators)
